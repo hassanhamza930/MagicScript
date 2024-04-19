@@ -65,7 +65,7 @@ var salesScriptDefault = [
     ]
   },
   {
-    text: "Cool,So our product is a sales teleprompter that allows your sales teams,to always stay on point during cold calls,Sound confident and close more sales,Does this sound like something you'd be interested in?",
+    text: "Cool,So our product is a sales teleprompter that allows your sales teams,to always stay on point during cold calls,Sound confident and close more deals,Does this sound like something you'd be interested in?",
     pivot: false,
   }
 ] as Array<ScriptLine>
