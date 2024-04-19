@@ -60,7 +60,7 @@ var salesScriptDefault = [
         ]
       },
       {
-        text: "Wonderful,Later later man, take care!"
+        text: "Wonderful,Talk later man,Take care!"
       }
     ]
   },
