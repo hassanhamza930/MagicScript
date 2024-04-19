@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import EarlyAccess from './pages/earlyAccess';
 import EarlyAccessSubmiited from './pages/earlyAccessSubmitted';
+import { RecoilRoot } from 'recoil';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYyQEMivIp0rCXMkXL55dBG8hiiVf67vg",
@@ -27,11 +28,10 @@ function App() {
   const analytics = getAnalytics(app);
 
   return (
-    <div style={{fontFamily:"Roboto"}} className='h-screen w-full'>
-      <Routes>
-        <Route path='/' element={<Demo/>} />
-      </Routes>
-
+    <div style={{ fontFamily: "Roboto" }} className='h-screen w-full'>
+        <Routes>
+          <Route path='/' element={<Demo />} />
+        </Routes>
     </div>
   )
 }
