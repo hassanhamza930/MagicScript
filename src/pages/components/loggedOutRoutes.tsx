@@ -6,6 +6,7 @@ function LoggedOutRoutes() {
     return ( 
         <Routes>
             <Route path="/" element={<LandingPage/>} />
+            <Route path="/demo" element={<Demo/>} />
         </Routes>
      );
 }

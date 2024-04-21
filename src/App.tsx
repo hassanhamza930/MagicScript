@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import LoggedInRoutes from './pages/components/loggedInRoutes';
 import LoggedOutRoutes from './pages/components/loggedOutRoutes';
+import { useRecoilState } from 'recoil';
+import { isLoadingAtom } from './atoms/atoms';
 
 
 const firebaseConfig = {
@@ -21,9 +23,16 @@ function App() {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("uid")==undefined?false:true);
+  const [loading, setloading] = useRecoilState(isLoadingAtom);
+
 
   return (
     <div style={{ fontFamily: "Roboto" }} className='h-screen w-full flex justify-start items-start'>
+        {
+          loading==true&&
+          <div className='h-screen w-full fixed z-50 bg-black/80'>
+          </div>
+        }
         {
           isLoggedIn==true?
           <LoggedInRoutes/>:
