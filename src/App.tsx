@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import LoggedInRoutes from './pages/components/loggedInRoutes';
 import LoggedOutRoutes from './pages/components/loggedOutRoutes';
 import { useRecoilState } from 'recoil';
-import { isLoadingAtom } from './atoms/atoms';
+import { currentUserAtom, isLoadingAtom } from './atoms/atoms';
+import { collection, doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { User } from './interfaces';
 
 
 const firebaseConfig = {
@@ -24,6 +26,23 @@ function App() {
   const analytics = getAnalytics(app);
   const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("uid")==undefined?false:true);
   const [loading, setloading] = useRecoilState(isLoadingAtom);
+  const [loggedInUser, setloggedInUser] = useRecoilState(currentUserAtom);
+  const db=getFirestore();
+
+  useEffect(()=>{
+    if(localStorage.getItem("uid")!=undefined){
+      onSnapshot(doc(db, "users",localStorage.getItem("uid") as string), (doc) => {
+        if (doc.exists()) {
+          setloggedInUser(doc.data() as User);
+          setloading(false);
+        } 
+        else {
+          localStorage.clear();
+        }
+      });
+    }
+  },[])
+
 
 
   return (

@@ -1,3 +1,4 @@
+import { User } from "@/interfaces";
 import { atom } from "recoil";
 
 export const indexAtom=atom({
@@ -9,4 +10,10 @@ export const indexAtom=atom({
 export const isLoadingAtom=atom({
     key:"isLoadingAtom",
     default: false as boolean
+})
+
+
+export const currentUserAtom=atom({
+    key:"currentUserAtom",
+    default: {} as User
 })

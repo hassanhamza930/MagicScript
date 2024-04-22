@@ -120,7 +120,7 @@ function Demo() {
 
 
   return (
-    <div className="h-full w-full flex justify-center items-center bg-black/80 text-white/90 overflow-y-hidden">
+    <div className="h-full w-full flex justify-center items-center bg-transparent text-white/90 overflow-y-hidden">
       <div className="h-full absolute z-10 flex flex-col justify-start items-start py-10 w-3/5 text-sm">
         <div className="flex flex-row justify-between items-center w-48"> <b>Next</b> Arrow Down </div>
         <div className="flex flex-row justify-between items-center w-48"> <b>Previous</b> Arrow Up </div>
