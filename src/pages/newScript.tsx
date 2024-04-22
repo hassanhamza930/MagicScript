@@ -5,7 +5,7 @@ import { FiEdit } from "react-icons/fi";
 function NewScript() {
 
     const [isEditingName, setisEditingName] = useState(false);
-    const [scriptName, setscriptName] = useState("");
+    const [scriptName, setscriptName] = useState("Untitled Script");
 
     return (
         <div className="h-full w-full flex justify-start items-start p-10 tracking-tighter">
