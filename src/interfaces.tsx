@@ -9,3 +9,16 @@ export interface User{
   photoUrl:string;
   plan:"Paid"| "Free";
 }
+
+export interface ScriptLine{
+  text:string;
+  pivot?:boolean;
+  newMessages?:Array<ScriptLine>;
+}
+
+
+export interface Script{
+  id?:string;
+  name:string;
+  lines:Array<ScriptLine>;
+}

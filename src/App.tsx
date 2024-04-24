@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { currentUserAtom, isLoadingAtom } from './atoms/atoms';
 import { collection, doc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { User } from './interfaces';
+import { Toaster } from 'sonner';
 
 
 const firebaseConfig = {
@@ -47,6 +48,7 @@ function App() {
 
   return (
     <div style={{ fontFamily: "Roboto" }} className='h-screen w-full flex justify-start items-start'>
+        <Toaster />
         {
           loading==true&&
           <div className='h-screen w-full fixed z-50 bg-black/80'>
