@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface User {
   id?: string;
   email: string;
@@ -9,6 +7,7 @@ export interface User {
 }
 
 export interface ScriptLine {
+  id: string;
   text: string;
   pivot?: boolean;
   newMessages?: Array<ScriptLine>;
@@ -18,19 +17,4 @@ export interface Script {
   id?: string;
   name: string;
   lines: Array<ScriptLine>;
-}
-
-export interface ScriptType {
-  id?: string;
-  name: string;
-  createdAt: Timestamp;
-  // scripts: Array<Script>;
-}
-
-export interface NodeType {
-  id?: string;
-  text: string;
-  nextNodeId?: string;
-  prevNodeId: string;
-  pivotNodeId?: string;
 }

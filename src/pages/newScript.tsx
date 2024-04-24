@@ -9,7 +9,77 @@ import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { toast } from "sonner";
-import NewScriptComponent from "./NewScript/index";
+
+const ScriptLineComponent: React.FC<{
+  scriptLines: Array<ScriptLine>;
+  setscriptLines: (lines: Array<ScriptLine>) => void;
+  heading?: string;
+}> = ({ scriptLines, setscriptLines, heading }) => {
+  const [selectedLine, setselectedLine] = useState("");
+
+  const handleAddNewMessageInSelectedLine = (line: ScriptLine[]): void => {
+    const lineData = scriptLines.find((sl) => sl.id === selectedLine);
+
+    if (lineData) {
+      lineData.newMessages = line;
+      setscriptLines([...scriptLines]);
+    }
+  };
+
+  return (
+    <div className="flex items-start justify-start gap-8">
+      <div className="tracking-normal  flex flex-col justify-start items-center h-full bg-white/10 rounded-xl p-2 px-4 overflow-y-auto ">
+        <h2 className="text-xl text-white">{heading}</h2>
+
+        {scriptLines.map((line, index) => {
+          return (
+            <div className="flex flex-col justify-start items-center">
+              <div
+                className=""
+                onClick={() => {
+                  setselectedLine(line.id);
+                }}
+              >
+                <textarea
+                  value={line.text}
+                  onChange={(e) => {
+                    const newLines = scriptLines;
+                    newLines[index].text = e.target.value;
+                    setscriptLines([...newLines]);
+                  }}
+                  placeholder="Hello John, how are you doing today..."
+                  className="w-96 h-24 text-sm rounded-xl border-[2px] border-white/60 px-4 py-2 bg-black/20 text-white"
+                />
+              </div>
+              <div className="h-4 w-[2px] bg-white/80" />
+            </div>
+          );
+        })}
+
+        <button
+          onClick={() => {
+            setscriptLines([
+              ...scriptLines,
+              { id: scriptLines.length.toString(), text: "" },
+            ]);
+          }}
+          className="mt-4 mb-10 px-8 py-2 bg-white rounded-sm hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-600"
+        >
+          <FaPlus className="text-black" size={10} />
+        </button>
+      </div>
+      {selectedLine != "" && (
+        <ScriptLineComponent
+          heading={scriptLines.find((sl) => sl.id === selectedLine)?.text || ""}
+          scriptLines={
+            scriptLines.find((sl) => sl.id === selectedLine)?.newMessages || []
+          }
+          setscriptLines={handleAddNewMessageInSelectedLine}
+        />
+      )}
+    </div>
+  );
+};
 
 function NewScript() {
   const [isEditingName, setisEditingName] = useState(false);
@@ -94,47 +164,15 @@ function NewScript() {
             Publish
           </Button>
         </div>
-        <div className="mt-14">
+        {/* <div className="mt-14">
           <NewScriptComponent />
-        </div>
-        {/* <div className="tracking-normal  mt-14 flex flex-col justify-start items-center h-full bg-white/10 rounded-xl p-2 px-4 overflow-y-auto ">
-          {scriptLines.map((line, index) => {
-            return (
-              <div className="flex flex-col justify-start items-center">
-                <div className="">
-                  <textarea
-                    value={line.text}
-                    onChange={(e) => {
-                      const newLines = scriptLines;
-                      newLines[index].text = e.target.value;
-                      setscriptLines([...newLines]);
-                    }}
-                    placeholder="Hello John, how are you doing today..."
-                    className="w-96 h-24 text-sm rounded-xl border-[2px] border-white/60 px-4 py-2 bg-black/20 text-white"
-                  />
-                  <button
-                    onClick={() => {
-                      setscriptLines([...scriptLines, { text: "" }]);
-                    }}
-                    className="px-8 py-2 bg-white rounded-sm hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-600 absolute"
-                  >
-                    <FaPlus className="text-black" size={10} />
-                  </button>
-                </div>
-                <div className="h-4 w-[2px] bg-white/80" />
-              </div>
-            );
-          })}
-
-          <button
-            onClick={() => {
-              setscriptLines([...scriptLines, { text: "" }]);
-            }}
-            className="mt-4 mb-10 px-8 py-2 bg-white rounded-sm hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-600"
-          >
-            <FaPlus className="text-black" size={10} />
-          </button>
         </div> */}
+        <div className="h-full mt-14 flex items-start justify-start ">
+          <ScriptLineComponent
+            scriptLines={scriptLines}
+            setscriptLines={setscriptLines}
+          />
+        </div>
       </div>
     </div>
   );
