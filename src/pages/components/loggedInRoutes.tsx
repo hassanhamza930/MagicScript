@@ -3,6 +3,8 @@ import Demo from "../Demo";
 import LoggedInNavBar from "./loggedInNavbar";
 import Scripts from "../scripts";
 import NewScript from "../newScript";
+import Play from "../play";
+import EditScript from "../editScript";
 
 function LoggedInRoutes() {
     return (
@@ -12,6 +14,8 @@ function LoggedInRoutes() {
                 <Routes>
                     <Route path="/" element={<Scripts />} />
                     <Route path="/newscript" element={<NewScript />} />
+                    <Route path="/edit/:scriptid" element={<EditScript />} />
+                    <Route path="/play/:scriptid" element={<Play />} />
                 </Routes>
             </div>
         </div>

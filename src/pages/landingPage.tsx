@@ -25,7 +25,7 @@ function LandingPage() {
       visitTime: Timestamp.now()
     });
 
-    // document.querySelector('video')!.playbackRate = 1.3;
+    document.querySelector('video')!.playbackRate = 1.2;
   }, [])
 
   const { handleGoogleSignIn } = useHandleGoogleSignIn();
@@ -41,7 +41,7 @@ function LandingPage() {
         <div style={{ fontFamily: "Roboto" }} className="text-sm md:text-xl font-normal mt-1 opacity-60 tracking-normal text-center hidden md:flex">Never go Blank on another sales call, ever again.<br /> Stay on point, Pivot Easily and close more deals</div>
 
         <div style={{ fontFamily: "Inter" }} className="flex flex-row justify-center items-center w-full gap-4 mt-5">
-          <button onClick={() => { handleGoogleSignIn() }} className="hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transition-all duration-20 mt-5 px-10 py-2 bg-blue-700 text-white/90 rounded-md text-sm">Get Access</button>
+          <button onClick={() => { handleGoogleSignIn() }} className="hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transition-all duration-20 mt-5 px-10 py-2 bg-blue-700 text-white/90 rounded-md text-sm">Get Started</button>
           <button onClick={() => { navigate("/demo") }} className="hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transition-all duration-200 mt-5 px-10 py-2 bg-black/80 text-white rounded-md text-sm flex flex-row justify-center items-center gap-2">
             Demo
             <ArrowRightIcon />
@@ -52,13 +52,13 @@ function LandingPage() {
       </div>
 
 
-      <div style={{ backgroundImage: `url('${demogif}')` }} className="relative flex h-[550px] w-3/4 mt-24 rounded-xl bg-cover">
+      <video id="video" controls src="/assets/demo.mp4" className="relative flex h-[550px] mt-24 rounded-xl bg-cover">
         <div className="absolute z-10 h-full w-full bg-gradient-to-b from-transparent">
 
         </div>
-      </div>
+      </video>
 
-      <div className="w-full flex flex-col text-xl justify-start font-normal items-center tracking-tight text-black/80 mt-36 text-center">
+      <div className="w-full flex flex-col text-lg justify-start font-normal items-center tracking-tight text-black/80 mt-36 text-center">
 
         A Sales Teleprompter<br /> Made with love to make your life easier.
       </div>
@@ -108,9 +108,7 @@ function LandingPage() {
 
       </div>
 
-      <div style={{ fontFamily: "Inter" }} className="text-3xl tracking-tight font-medium text-center text-white/80 mt-24">
-        The Only <b className="text-yellow-500">Cold Call Tool</b> You will ever need.
-      </div>
+     
 
 
 

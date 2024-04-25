@@ -1,15 +1,14 @@
 import { isLoadingAtom } from "@/atoms/atoms";
 import { Button } from "@/components/ui/button";
-import { ScriptLine } from "@/interfaces";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { Script, ScriptLine } from "@/interfaces";
+import { addDoc, collection, doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { toast } from "sonner";
-import { Script } from "vm";
 
 
 
@@ -20,34 +19,47 @@ import { Script } from "vm";
 
 
 
-function NewScript() {
+
+function EditScript() {
   const [isEditingName, setisEditingName] = useState(false);
   const [scriptName, setscriptName] = useState("Untitled Script");
   const [scriptLines, setscriptLines] = useState([
     { text: "" },
   ] as Array<ScriptLine>);
+
   const db = getFirestore();
   const [, setloading] = useRecoilState(isLoadingAtom);
   const navigate = useNavigate();
   const [selectedNode, setselectedNode] = useState(-1);
+  const {scriptid}=useParams();
 
 
-
+  useEffect(()=>{
+    onSnapshot(doc(db, "users", localStorage.getItem("uid") as string, "scripts",scriptid!), (doc) => {
+        var scriptData = doc.data() as Script;
+        setscriptLines(scriptData.lines);
+        setscriptName(scriptData.name);
+    })
+  },[])
 
 
   async function publish() {
     setloading(true);
     console.log("Publishing Script");
-    await addDoc(
-      collection(
+    await setDoc(
+      doc(
         db,
         "users",
         localStorage.getItem("uid")! as string,
-        "scripts"
+        "scripts",
+        scriptid!
       ),
       {
         name: scriptName,
         lines: scriptLines,
+      },
+      {
+        merge: true
       }
     );
     setloading(false);
@@ -166,4 +178,4 @@ function NewScript() {
   );
 }
 
-export default NewScript;
+export default EditScript;

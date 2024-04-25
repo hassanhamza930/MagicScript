@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface ScriptLine {
-  id: string;
+  id?: string;
   text: string;
   pivot?: boolean;
   newMessages?: Array<ScriptLine>;
