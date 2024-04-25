@@ -4,11 +4,13 @@ import { debounce } from "lodash";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import useHandleGoogleSignIn from "@/hooks/useGoogleSignin";
 
 
 export const NavBar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisibile] = useState(1);
+  const {handleGoogleSignIn}=useHandleGoogleSignIn();
 
   const handleScroll = debounce(() => {
     const currentScrollPos = window.pageYOffset;
@@ -40,7 +42,7 @@ export const NavBar = () => {
         visible ? "top-0" : "-top-32"
       )}
     >
-      <div className=" rounded-xl px-5 py-2  flex justify-between items-center h-full w-3/4 bg-white/80 shadow-md border-2 bg-clip-padding backdrop-filter backdrop-blur-lg ">
+      <div className=" rounded-xl px-5 py-2  flex justify-between items-center h-full w-3/4 bg-white/80 shadow-md shadow-yellow-500/20 border-2 bg-clip-padding backdrop-filter backdrop-blur-lg ">
 
         <Link to={"/demo"} className="">
           <img
@@ -51,7 +53,7 @@ export const NavBar = () => {
         </Link>
 
         <div className="hidden md:flex flex-row justify-start items-center gap-5 text-gray-900 font-bold">
-          <Button variant={"ghost"} className="text-sm bg-black/80 text-white font-normal shadow-sm hover:bg-yellow-500/80 hover:shadow-2xl shadow-yellow-600/60 hover:text-black px-5 py-2">Get Started</Button>
+          <Button onClick={()=>{handleGoogleSignIn()}} variant={"ghost"} className="text-sm bg-black/80 text-white font-normal shadow-sm hover:bg-yellow-500/80 hover:shadow-2xl shadow-yellow-600/60 hover:text-black px-5 py-2">Get Started</Button>
         </div>
 
         {/* <div className="fkex md:hidden flex-row justify-start items-center gap-5 text-gray-900 font-bold">

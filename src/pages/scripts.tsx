@@ -1,15 +1,18 @@
+import { currentUserAtom } from "@/atoms/atoms";
 import { Button } from "@/components/ui/button";
 import { Script } from "@/interfaces";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaEdit, FaFile, FaFileAlt, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { toast } from "sonner";
 
 function Scripts() {
 
   const navigate = useNavigate();
   const [scripts, setscripts] = useState([] as Array<Script>);
+  const [loggedInUser, setloggedInUser] = useRecoilState(currentUserAtom);
   const db = getFirestore();
 
   useEffect(() => {
@@ -50,7 +53,7 @@ function Scripts() {
           {
             scripts.map((script) => {
               return (
-                <div style={{ fontFamily: "Inter" }} className="text-start hover:transition-all duration-300 hover:shadow-yellow-600/60 flex flex-col justify-start items-start gap-2 shadow-2xl shadow-yellow-600/20 bg-gradient-to-b from-white/80 to-white/60 text-black/80 rounded-md px-4 py-3 w-96 h-64 tracking-tight">
+                <div key={script.id!} style={{ fontFamily: "Inter" }} className="text-start hover:transition-all duration-300 hover:shadow-yellow-600/60 flex flex-col justify-start items-start gap-2 shadow-2xl shadow-yellow-600/20 bg-gradient-to-b from-white/80 to-white/60 text-black/80 rounded-md px-4 py-3 w-96 h-64 tracking-tight">
                   <div className="text-xl font-semibold w-full border-b-[1px] border-b-black/60 pb-2 overflow-hidden flex justify-start items-start h-10">{script.name}</div>
                   <div className="text-sm font-medium w-full flex flex-col gap-1 justify-start items-start h-full overflow-y-clip">
                     {
@@ -79,7 +82,14 @@ function Scripts() {
                       await deleteDoc(doc(db, "users", localStorage.getItem('uid')! as string, "scripts", script.id!));
                       toast.success("Script Deleted Successfully");
                     }} className="px-8 py-2 bg-black/60 text-white">Delete</Button>
-                    <Button onClick={()=>{navigate(`/play/${script.id}`)}} className="px-8 py-2 bg-black/80 text-white">Play</Button>
+                    <Button onClick={()=>{
+                      if(loggedInUser.plan!="Paid" && script.id!="demo"){
+                        navigate("/license")
+                        return 0;
+                      }else{
+                        navigate(`/play/${script.id}`)
+                      }
+                      }} className="px-8 py-2 bg-black/80 text-white">Play</Button>
                   </div>
                 </div>
               )

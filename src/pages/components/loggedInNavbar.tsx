@@ -40,13 +40,13 @@ function LoggedInNavBar() {
             <div className="flex flex-row justify-start items-center gap-2 bg-white/20 shadow-2xl shadow-yellow-600/20 text-white/80 w-full p-2 rounded-md mb-10">
                 <div style={{ backgroundImage: `url('${loggedInUser.photoUrl}')` }} className="bg-white/20 transition-all duration-300 h-10 w-10 rounded-full bg-cover bg-center flex flex-none"></div>
                 <div className="flex flex-col justify-center items-start gap-0 text-start">
-                    <div className="text-md font-bold">{loggedInUser.name==undefined?"xxxx":loggedInUser.name}</div>
-                    <div className="text-sm font-normal">{loggedInUser.email==undefined?"xxxx":loggedInUser.email}</div>
+                    <div className="text-md font-bold">{loggedInUser.name==undefined?"---":loggedInUser.name}</div>
+                    <div className="text-sm font-normal">{loggedInUser.email==undefined?"---":loggedInUser.email}</div>
                 </div>
             </div>
 
             <NavItem icon={<FiAlignLeft size={15}/>} title="Scripts" onClick={()=>{navigate('/')}} />
-            <NavItem icon={<FiBarChart size={15}/>} title="Analytics" onClick={()=>{navigate('/analytics')}} />
+            {/* <NavItem icon={<FiBarChart size={15}/>} title="Analytics" onClick={()=>{navigate('/analytics')}} /> */}
             <NavItem icon={<FiDollarSign size={15}/>} title="License" onClick={()=>{navigate('/license')}} />
             <div className="w-full h-[2px] bg-white/10 mb-5 mt-3"></div>
             <NavItem icon={<FiMessageSquare size={15}/>} title="Feedback" onClick={()=>{navigate('/feedback')}} />

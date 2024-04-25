@@ -5,6 +5,8 @@ import Scripts from "../scripts";
 import NewScript from "../newScript";
 import Play from "../play";
 import EditScript from "../editScript";
+import License from "../license";
+import Feedback from "../feedback";
 
 function LoggedInRoutes() {
     return (
@@ -16,6 +18,8 @@ function LoggedInRoutes() {
                     <Route path="/newscript" element={<NewScript />} />
                     <Route path="/edit/:scriptid" element={<EditScript />} />
                     <Route path="/play/:scriptid" element={<Play />} />
+                    <Route path="/license" element={<License />} />
+                    <Route path="/feedback" element={<Feedback />} />
                 </Routes>
             </div>
         </div>

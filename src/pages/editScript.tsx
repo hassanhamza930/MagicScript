@@ -69,7 +69,7 @@ function EditScript() {
 
   return (
     <div className="relative h-full w-full flex justify-start items-start p-5 tracking-tighter">
-      <div className="relative h-full w-full flex flex-col justify-start items-start">
+      <div className="relative h-full w-full flex flex-col justify-start items-start overflow-y-auto">
         <div className="w-full flex flex-row justify-between items-center absolute z-10">
           <form
             onSubmit={(e) => {
@@ -133,6 +133,7 @@ function EditScript() {
                   <div className="flex flex-row justify-start items-center">
 
                     <textarea
+                    id="no_scroll"
                       value={line.text}
                       onChange={(e) => {
                         const newLines = scriptLines;
@@ -140,7 +141,7 @@ function EditScript() {
                         setscriptLines([...newLines]);
                       }}
                       placeholder="Hello John, how are you doing today..."
-                      className="w-96 h-24 text-sm rounded-xl border-[2px] border-white/60 px-4 py-2 bg-black/20 text-white"
+                      className="w-96 h-24 text-md rounded-xl border-[2px] border-white/60 px-4 py-2 bg-black/20 text-white tracking-normal"
                     />
                     {/* {
                       index == selectedNode &&
@@ -160,7 +161,7 @@ function EditScript() {
                   <div className="h-4 w-[2px] bg-white/60" />
                   {
                     index == scriptLines.length - 1 &&
-                    <button style={{ fontFamily: "Inter" }} onClick={() => { setscriptLines([...scriptLines, { text: "" }]) }} className="text-xs font-normal tracking-tight bg-white/90 text-black/80 rounded-md px-4 py-1 hover:shadow-2xl hover:scale-105 transition-all duration-300">+ Add a New Line</button>
+                    <button style={{ fontFamily: "Inter" }} onClick={() => { setscriptLines([...scriptLines, { text: "" }]) }} className="text-xs font-normal tracking-tight bg-white/90 text-black/80 rounded-md px-4 py-1 hover:shadow-2xl hover:scale-105 transition-all duration-300 mb-24">+ Add a New Line</button>
                   }
                 </div>
               )

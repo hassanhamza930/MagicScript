@@ -7,21 +7,25 @@ import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
 
-function Play() {
+function Feedback() {
     const [index, setindex] = useRecoilState(indexAtom);
-    const [salesScript, setsalesScript] = useState<Array<ScriptLine>>([]);
+    const [salesScript, setsalesScript] = useState<Array<ScriptLine>>(
+        [
+            {
+                text:"Your feedback is invaluable"
+            },
+            {
+                text:"Unlike many other places on the web, We will Listen"
+            },
+            {
+                text:"If you want to share anything or just wanna say Hi, Reach out Directly, hassanhamza930@gmail.com "
+            },
+        ] as Array<ScriptLine>
+        );
     const { scriptid } = useParams();
     const [loading, setloading] = useState(true);
     const db = getFirestore();
 
-    useEffect(() => {
-        setloading(true);
-        onSnapshot(doc(db, "users", localStorage.getItem("uid") as string, "scripts", scriptid!), (doc) => {
-            var scriptData = doc.data() as Script;
-            setsalesScript(scriptData.lines);
-        })
-        setloading(false);
-    }, [])
 
 
     const escFunction = (event: any) => {
@@ -138,4 +142,4 @@ function Play() {
     );
 }
 
-export default Play;
+export default Feedback;
