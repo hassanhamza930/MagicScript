@@ -53,7 +53,7 @@ function LandingPage() {
 
         <div className="w-full flex flex-col justify-start items-center mt-12 md:mt-16 tracking-tight text-black/90 text-center">
           <div style={{ fontFamily: "Pacifico" }} className="gradient-text text-8xl tracking-tighter p-24 py-16">MagicScript</div>
-          <div style={{ fontFamily: "Inter" }} className="text-2xl md:text-3xl mt-2 opacity-80 tracking-tight font-bold ">Sound<span className="italic underline ml-1">100x more Confident</span></div>
+          <div style={{ fontFamily: "Inter" }} className="text-2xl md:text-3xl mt-2 opacity-80 tracking-tight font-bold ">Sound<span className="italic underline ml-1">100x more Confident</span><br/>on Cold Calls</div>
           <div style={{ fontFamily: "Roboto" }} className="text-sm md:text-xl font-normal mt-1 opacity-60 tracking-normal text-center hidden md:flex">Never go Blank on another sales call, ever again.<br /> Stay on point, Pivot Easily and close more deals</div>
 
           <div style={{ fontFamily: "Inter" }} className="flex flex-row justify-center items-center w-full gap-4 mt-5">
