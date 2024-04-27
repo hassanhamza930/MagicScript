@@ -175,12 +175,15 @@ function Demo() {
 
   const [index, setindex] = useRecoilState(indexAtom);
   const [salesScript, setsalesScript] = useState<Array<ScriptLine>>(salesScriptDefault);
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+
 
   const escFunction = (event: any) => {
     if (event.key === "ArrowDown") {
-      if((index+2)>salesScript.length){
+      if ((index + 2) > salesScript.length) {
       }
-      else{
+      else {
         setindex(index + 1);
       }
     }
@@ -193,13 +196,50 @@ function Demo() {
       }
     }
     else if (event.key === "ArrowRight") { // Use strict equality (===)
-      if(salesScript[index]?.pivot==true){
-        var newMessages=salesScript[index]?.newMessages ?? [];
+      if (salesScript[index]?.pivot == true) {
+        var newMessages = salesScript[index]?.newMessages ?? [];
         setsalesScript([...newMessages]);
         setindex(0);
       }
     }
   };
+
+
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 100
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientY)
+  }
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientY)
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe || isRightSwipe) console.log('swipe', isLeftSwipe ? 'down' : 'top')
+    if (isLeftSwipe == true) {
+      if ((index + 2) > salesScript.length) {
+      }
+      else {
+        setindex(index + 1);
+      }
+    }
+    else {
+      if ((index - 1) < 0) {
+        setindex(0);
+      }
+      else {
+        setindex(index - 1);
+      }
+    }
+  }
+
+
 
   useEffect(() => {
     document.removeEventListener("keyup", escFunction);
@@ -208,82 +248,113 @@ function Demo() {
     return () => {
       document.removeEventListener("keyup", escFunction);
     };
-  }, [index,salesScript]);
+  }, [index, salesScript]);
 
 
   return (
     <motion.div
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ transition: 0.7 }}
+      className="h-full w-full flex justify-start items-center bg-gradient-to-b from-gray-50/80 to-gray-200/80 text-black/80 overflow-y-hidden px-5 md:pl-36">
+
+      <div className="h-full absolute z-10 flex-col justify-start items-start py-10 ml-24 text-sm  md:flex hidden">
+        <div className="flex flex-row justify-between items-center w-48"> <b>Next</b> Arrow Down </div>
+        <div className="flex flex-row justify-between items-center w-48"> <b>Previous</b> Arrow Up </div>
+        <div className="flex flex-row justify-between items-center w-48"> <b>Pivot</b> Arrow Right </div>
+      </div>
+
+      <div className="h-full absolute z-10 flex-col justify-start items-start py-10 text-sm  flex md:hidden">
+        <div className="flex flex-row justify-between items-center w-48"> <b>Next</b>Swipe Up </div>
+        <div className="flex flex-row justify-between items-center w-48"> <b>Previous</b> Swipe Down </div>
+        {/* <div className="flex flex-row justify-between items-center w-48"> <b>Pivot</b> Arrow Right </div> */}
+      </div>
+
+      <div style={{ fontFamily: "Roboto" }} className="md:text-6xl font-medium tracking-tight flex flex-col h-full justify-center items-start w-full">
+        <div className="w-full md:w-3/5 flex flex-col justify-start items-start pt-48 md:pt-0 md:h-[20%] md:ml-24">
+          <div className="flex flex-col justify-start items-start gap-0 md:gap-4">
+
+            {
+              salesScript[index]?.text.split(",").map((line, index1) => {
+                return (
+                  <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 * index1 }}
+                    key={line+"desktop"} style={{ fontSize: line.length > 20 ? 36 :64, fontWeight: line.length > 20 ? 400 : 600 }} className={`md:flex hidden flex-wrap justify-start items-center ${line.length > 20 ? "md:gap-x-2 gap-x-1" : "gap-x-2"} `}>
+                    {
+                      line.trim().split(" ").map((word, index2) => {
+                        return (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: 0.1 * (index1 + index2) }}
+                            key={word} >
+                            {word}
+                          </motion.div>
+                        )
+                      })
+                    }
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 * index1 }}
+                    key={line+"mobile"} style={{ fontSize: line.length > 20 ? 24 :36, fontWeight: line.length > 20 ? 400 : 600 }} className={`flex md:hidden flex-wrap justify-start items-start ${line.length > 20 ? "md:gap-x-2 gap-x-1" : "gap-x-2"} `}>
+                    {
+                      line.trim().split(" ").map((word, index2) => {
+                        return (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: 0.1 * (index1 + index2) }}
+                            key={word} >
+                            {word}
+                          </motion.div>
+                        )
+                      })
+                    }
+                  </motion.div>
+                  </>
+                  
+                )
+              })
+            }
+            {
+              salesScript[index]?.pivot == true &&
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-sm px-4 py-1 rounded-full bg-black/90 text-white/80 tracking-normal mt-10">Pivot Available</motion.div>
+            }
+            {
+              index + 1 == salesScript.length &&
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-sm px-4 py-1 rounded-full bg-yellow-400 text-black/80 tracking-normal mt-10">End of Call</motion.div>
+            }
+          </div>
+
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ transition: 0.7 }}
-            className="h-full w-full flex justify-start items-center bg-gradient-to-b from-gray-50/80 to-gray-200/80 text-black/80 overflow-y-hidden pl-36">
-            
-            <div className="h-full absolute z-10 flex flex-col justify-start items-start py-10 ml-24 text-sm">
-                <div className="flex flex-row justify-between items-center w-48"> <b>Next</b> Arrow Down </div>
-                <div className="flex flex-row justify-between items-center w-48"> <b>Previous</b> Arrow Up </div>
-                <div className="flex flex-row justify-between items-center w-48"> <b>Pivot</b> Arrow Right </div>
-            </div>
+            transition={{ delay: 0.8 }}
+            className="flex flex-row justify-start items-center gap-4 mt-36 text-xl md:text-3xl font-normal text-black/40 tracking-tight">
+            {salesScript[index + 1]?.text}
+          </motion.div>
 
-            <div style={{ fontFamily: "Roboto" }} className="md:text-6xl font-medium tracking-tight flex flex-col h-full justify-center items-start w-full">
-                <div className="w-3/5 flex flex-col justify-start items-start h-[20%] ml-24">
-                    <div className="flex flex-col justify-start items-start gap-4">
+        </div>
 
-                        {
-                            salesScript[index]?.text.split(",").map((line, index1) => {
-                                return (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.3 * index1 }}
-                                        key={line} style={{ fontSize: line.length > 20 ? 32 : 64, fontWeight: line.length > 20 ? 400 : 600 }} className={`flex flex-wrap justify-start items-center ${line.length > 20 ? "gap-x-2" : "gap-x-2"} `}>
-                                        {
-                                            line.trim().split(" ").map((word, index2) => {
-                                                return (
-                                                    <motion.div 
-                                                    initial={{opacity:0}}
-                                                    animate={{opacity:1}}
-                                                    transition={{duration:0.4,delay:0.1*(index1+index2)}}
-                                                    key={word} >
-                                                        {word}
-                                                    </motion.div>
-                                                )
-                                            })
-                                        }
-                                    </motion.div>
-                                )
-                            })
-                        }
-                        {
-                            salesScript[index]?.pivot == true &&
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="text-sm px-4 py-1 rounded-full bg-black/90 text-white/80 tracking-normal mt-10">Pivot Available</motion.div>
-                        }
-                        {
-                            index + 1 == salesScript.length &&
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="text-sm px-4 py-1 rounded-full bg-yellow-400 text-black/80 tracking-normal mt-10">End of Call</motion.div>
-                        }
-                    </div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                        className="flex flex-row justify-start items-center gap-4 mt-36 text-3xl font-normal text-black/40 tracking-tight">
-                        {salesScript[index + 1]?.text}
-                    </motion.div>
-
-                </div>
-
-            </div>
+      </div>
 
 
 
-        </motion.div>
+    </motion.div>
   );
 }
 

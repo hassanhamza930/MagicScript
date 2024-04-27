@@ -130,3 +130,9 @@
   background-color: #f5f5f5; /* Background color */
   border-radius: 10px;
 }
+
+
+
+html, body {
+  overscroll-behavior: none;
+}

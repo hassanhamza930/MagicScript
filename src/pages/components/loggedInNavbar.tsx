@@ -27,7 +27,7 @@ function LoggedInNavBar() {
         },[])
 
         return(
-            <button onClick={()=>[props.onClick()]} className={`text-start flex flex-row justify-start items-center gap-2 w-full px-4 py-2 rounded-sm text-md shadow-2xl shadow-yellow-600/20 mb-3 hover:scale-105 transiton-all duration-300 ${current==true?"bg-white/80 text-black font-medium":"hover:bg-white/20 hover:text-white/90 bg-white/5 text-white/60"}`}>
+            <button onClick={()=>[props.onClick()]} className={`text-start  flex flex-row justify-start items-center gap-2 w-full px-4 py-2 rounded-sm text-md shadow-2xl shadow-yellow-600/20 mb-3 hover:scale-105 transiton-all duration-300 ${current==true?"bg-white/80 text-black font-medium":"hover:bg-white/20 hover:text-white/90 bg-white/5 text-white/60"}`}>
                     {props.icon}
                     <div>{props.title}</div>
             </button>
@@ -35,7 +35,7 @@ function LoggedInNavBar() {
     }
 
     return (
-        <div className="h-full w-80 flex-none bg-[#0F090C]/90 flex justify-start items-start flex-col py-10 px-4">
+        <div className="md:relative absolute z-10 h-full w-80 flex-none bg-[#0F090C]/95 md:bg-[#0F090C]/90 flex justify-start items-start flex-col py-10 px-4">
 
             <div className="flex flex-row justify-start items-center gap-2 bg-white/20 shadow-2xl shadow-yellow-600/20 text-white/80 w-full p-2 rounded-md mb-10">
                 <div style={{ backgroundImage: `url('${loggedInUser.photoUrl}')` }} className="bg-white/20 transition-all duration-300 h-10 w-10 rounded-full bg-cover bg-center flex flex-none"></div>

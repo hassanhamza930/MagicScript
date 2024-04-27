@@ -46,15 +46,15 @@ function LandingPage() {
 
 
   return (
-    <main style={{ backgroundImage: `url('https://static.vecteezy.com/system/resources/previews/025/946/942/non_2x/seamless-geometric-diagonal-grid-with-polka-dot-in-the-middle-of-square-pattern-with-bow-ties-for-tiles-fabric-stripes-clothing-and-tablecloths-free-vector.jpg')`, backgroundSize: "1%" }} id="no_scroll" className=" bg-contain bg-repeat w-full flex flex-col justify-start items-center relative bg-[#FBFBFB] ">
+    <main style={{ backgroundImage: `url('https://static.vecteezy.com/system/resources/previews/025/946/942/non_2x/seamless-geometric-diagonal-grid-with-polka-dot-in-the-middle-of-square-pattern-with-bow-ties-for-tiles-fabric-stripes-clothing-and-tablecloths-free-vector.jpg')`, backgroundSize: window.innerWidth<1280? "6%":"1%" }} id="no_scroll" className=" bg-contain bg-repeat w-full flex flex-col justify-start items-center relative bg-[#FBFBFB] overflow-x-hidden ">
 
       <div className="h-full w-full flex flex-col justify-start items-center bg-[#FBFBFB]/60 px-5 pt-32">
         <NavBar />
 
         <div className="w-full flex flex-col justify-start items-center mt-12 md:mt-16 tracking-tight text-black/90 text-center">
-          <div style={{ fontFamily: "Pacifico" }} className="gradient-text text-8xl tracking-tighter p-24 py-16">MagicScript</div>
+          <div style={{ fontFamily: "Pacifico" }} className="gradient-text text-6xl md:text-8xl tracking-tighter px-5 md:p-24 py-16">MagicScript</div>
           <div style={{ fontFamily: "Inter" }} className="text-2xl md:text-3xl mt-2 opacity-80 tracking-tight font-bold ">Sound<span className="italic underline ml-1">100x more Confident</span><br/>on Cold Calls</div>
-          <div style={{ fontFamily: "Roboto" }} className="text-sm md:text-xl font-normal mt-1 opacity-60 tracking-normal text-center hidden md:flex">Never go Blank on another sales call, ever again.<br /> Stay on point, Pivot Easily and close more deals</div>
+          <div style={{ fontFamily: "Roboto" }} className="text-sm md:text-xl font-normal mt-1 opacity-60 tracking-normal text-center flex">Never go Blank on another sales call, ever again.<br /> Stay on point, Pivot Easily and close more deals</div>
 
           <div style={{ fontFamily: "Inter" }} className="flex flex-row justify-center items-center w-full gap-4 mt-5">
             <button onClick={() => { handleGoogleSignIn() }} className="hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transition-all duration-20 mt-5 px-10 py-2 bg-blue-700 text-white/90 rounded-md text-sm">Get Started</button>
@@ -68,14 +68,14 @@ function LandingPage() {
         </div>
 
 
-        <video id="video" controls src="/assets/demo.mp4" className="relative flex h-[550px] mt-24 rounded-xl bg-cover">
+        <video id="video" controls src="/assets/demo.mp4" className="relative flex w-full md:w-auto md:h-[550px] mt-24 rounded-xl bg-cover">
 
         </video>
 
 
-        <div className="w-full flex flex-col text-lg justify-start font-normal items-center tracking-tight text-black/80 mt-24 text-center mb-16">
+        <div className="w-full flex flex-col text-lg justify-start font-normal items-center tracking-tight text-black/80 mt-24 text-center md:mb-16">
 
-          A Sales Teleprompter<br /> Made with 🩶 to make calls a breeze.
+          A Sales Teleprompter<br /> Made with love to make calls a breeze.
         </div>
 
 
@@ -129,25 +129,25 @@ function LandingPage() {
         </ContainerScroll>
 
 
-        <div className="flex flex-col w-full mt-48 justify-start items-center text-black/80">
+        <div className="flex flex-col w-full mt-10 md:mt-48 justify-start items-center text-black/80">
           <div className="text-3xl font-bold ">Feature Roadmap</div>
-          <div className="text-sm font-normal text-center">We're working very hard to add more features on a daily basis,<br/> Signup now to avail early bird pricing and get all future features for free</div>
+          <div className="text-sm font-normal text-center px-5">We're working very hard to add more features on a daily basis,<br className="md:flex hidden"/> Signup now to avail early bird pricing and get all future features for free</div>
 
-          <div className="flex flex-wrap justify-center items-center gap-2">
+          <div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-2 mt-10">
 
-            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md mt-10">
+            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
               <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 1 Week</div>
               <div className="text-xl font-medium mt-2">Pivot</div>
               <div className="text-sm font-normal">Don't look up what to say on a call, press a button to pivot the script and handle all counters gracefully</div>
             </div>
 
-            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md mt-10">
+            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
               <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 2 Weeks</div>
               <div className="text-xl font-medium mt-2">Shortcuts</div>
               <div className="text-sm font-normal">Don't mess up your script by writing tons of notes, Create custom shortcuts to handle the most common objections with ease</div>
             </div>
 
-            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md mt-10">
+            <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
               <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 4 Weeks</div>
               <div className="text-xl font-medium mt-2">Analytics</div>
               <div className="text-sm font-normal">Sales is a business of scale, figure out exactly where customers are dropping off by analyzing most common script flow patterns to improve continuously</div>
@@ -162,8 +162,8 @@ function LandingPage() {
 
 
         <div style={{ fontFamily: "Inter" }} className="flex flex-col justify-start items-center gap-2 tracking-tighter mt-48 my-24">
-          <div className="text-4xl font-medium">Ready to supercharge your cold calls?</div>
-          <Button onClick={() => { handleGoogleSignIn() }} className="bg-black/80 text-white px-10 mt-5">Let's Go</Button>
+          <div className="text-4xl font-medium text-center">Ready to supercharge your cold calls?</div>
+          <Button onClick={() => { handleGoogleSignIn() }} className="bg-black/80 text-white px-24 mt-5">Let's Go</Button>
         </div>
 
 

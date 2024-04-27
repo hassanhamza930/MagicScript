@@ -50,7 +50,7 @@ function App() {
 
 
   return (
-    <div style={{ fontFamily: "Roboto" }} className='relative h-screen w-full flex justify-start items-start'>
+    <body style={{ fontFamily: "Roboto" }} className='relative h-screen w-full flex justify-start items-start'>
         <Toaster />
         
         {
@@ -63,7 +63,7 @@ function App() {
           <LoggedInRoutes/>:
           <LoggedOutRoutes/>
         }
-    </div>
+    </body>
   )
 }
 

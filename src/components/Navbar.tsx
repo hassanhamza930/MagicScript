@@ -38,7 +38,7 @@ export const NavBar = () => {
       animate={{ top: -10, opacity: 1 }}
       transition={{ duration: 0.25, ease: "easeInOut" }}
       className={cn(
-        "px-0 md:px-[20%] pt-8  fixed left-0 w-full z-50 ease-in-out transform flex justify-center items-center",
+        "px-0 md:px-[20%] pt-8  fixed left-0 w-full z-50 ease-in-out transform hidden md:flex justify-center items-center",
         visible ? "top-0" : "-top-32"
       )}
     >

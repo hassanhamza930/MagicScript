@@ -6,7 +6,8 @@ function LoggedOutRoutes() {
     return (
         <div className="h-full w-full">
             {
-                window.innerWidth < 1280 ?
+                // window.innerWidth < 1280 ?
+                false?
                     <div className='fixed z-10 h-screen w-full bg-black/90 backdrop-blur-sm flex justify-center items-center'>
                         <div className='bg-gradient-to-br from-[#57ebde] to-[#aefb2a] h-96 w-4/5 md:h-96 md:w-96 rounded-2xl overflow-hidden'>
                             <div className="bg-yellow-300/60 h-full w-full flex flex-col justify-center items-center tracking-tight text-center p-5 text-black/80">
