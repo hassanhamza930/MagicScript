@@ -68,7 +68,7 @@ function Play() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ transition: 0.7 }}
-            className="h-full w-full flex justify-start items-center bg-gradient-to-b from-gray-50/80 to-gray-200/80 text-black/80 overflow-y-hidden">
+            className="h-full w-full flex justify-start items-center bg-gradient-to-b from-white to-white/80 text-black/80 overflow-y-hidden">
             <div className="h-full absolute z-10 flex flex-col justify-start items-start py-10 ml-24 text-sm">
                 <div className="flex flex-row justify-between items-center w-48"> <b>Next</b> Arrow Down </div>
                 <div className="flex flex-row justify-between items-center w-48"> <b>Previous</b> Arrow Up </div>
@@ -86,7 +86,7 @@ function Play() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.3 * index1 }}
-                                        key={line} style={{ fontSize: line.length > 20 ? 32 : 64, fontWeight: line.length > 20 ? 400 : 600 }} className={`flex flex-wrap justify-start items-center ${line.length > 20 ? "gap-x-2" : "gap-x-2"} `}>
+                                        key={line} style={{ fontSize: line.length > 20 ? 32 : 64, fontWeight: line.length > 20 ? 400 : 600 }} className={`flex flex-wrap justify-start items-center ${line.length > 20 ? "gap-x-2" : "gap-x-2"} gap-y-2 `}>
                                         {
                                             line.trim().split(" ").map((word, index2) => {
                                                 return (
