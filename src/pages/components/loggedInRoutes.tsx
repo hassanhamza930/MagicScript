@@ -7,6 +7,7 @@ import Play from "../play";
 import EditScript from "../editScript";
 import License from "../license";
 import Feedback from "../feedback";
+import NewScriptExperimental from "../newScriptExperimental";
 
 function LoggedInRoutes() {
     return (
@@ -29,6 +30,7 @@ function LoggedInRoutes() {
                 <Routes>
                     <Route path="/" element={<Scripts />} />
                     <Route path="/newscript" element={<NewScript />} />
+                    <Route path="/newscriptexperimental" element={<NewScriptExperimental />} />
                     <Route path="/edit/:scriptid" element={<EditScript />} />
                     <Route path="/play/:scriptid" element={<Play />} />
                     <Route path="/license" element={<License />} />
