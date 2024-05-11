@@ -8,18 +8,20 @@ export interface User {
   plan: "Paid" | "Free";
 }
 
+
+export interface Pivot{
+  customerSays:string,
+  newMessages:Array<ScriptLine>
+}
+
 export interface ScriptLine {
   id?: string;
   text: string;
   pivot?: boolean;
-  newMessages?: Array<ScriptLine>;
+  pivots?:Array<Pivot>;
 }
 
-export interface Script {
-  id?: string;
-  name: string;
-  lines: Array<ScriptLine>;
-}
+
 
 export interface ScriptExperimental {
   id?: string;

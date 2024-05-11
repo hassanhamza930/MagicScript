@@ -27,10 +27,12 @@ function NewScriptExperimental() {
 
 
     async function fetchInitialDataFromFirebase() {
+        setloading(true);
         var docData = (await getDoc(doc(db, "users", localStorage.getItem('uid')! as string, "scripts", scriptid!))).data() as ScriptExperimental;
         setNodes([...docData.nodes]);
         setEdges([...docData.edges])
         setscriptName(docData.name)
+        setloading(false);
     }
 
     useEffect(() => {

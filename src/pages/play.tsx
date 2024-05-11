@@ -1,36 +1,48 @@
-import { indexAtom } from "@/atoms/atoms";
-import { Script, ScriptLine } from "@/interfaces";
+import { edgesAtom, indexAtom, isLoadingAtom, nodesAtom } from "@/atoms/atoms";
+import { ScriptExperimental, ScriptLine } from "@/interfaces";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-
+import {Node,Edge} from 'reactflow';
 
 function Play() {
     const [index, setindex] = useRecoilState(indexAtom);
     const [salesScript, setsalesScript] = useState<Array<ScriptLine>>([]);
     const { scriptid } = useParams();
-    const [loading, setloading] = useState(true);
     const db = getFirestore();
+    const [nodes, setNodes] = useRecoilState(nodesAtom);
+    const [edges, setEdges] = useRecoilState(edgesAtom);
+    const [loading, setloading] = useRecoilState(isLoadingAtom);
+    const [currentNode, setcurrentNode] = useState({} as Node);
+    const [nextNodes, setnextNodes] = useState([] as Array<Node>);
+
+    async function fetchInitialDataFromFirebase() {
+        setloading(true);
+        var docData = (await getDoc(doc(db, "users", localStorage.getItem('uid')! as string, "scripts", scriptid!))).data() as ScriptExperimental;
+        setNodes([...docData.nodes]);
+        setEdges([...docData.edges])
+        console.log(docData.nodes);
+        console.log(docData.edges);
+        setcurrentNode(docData.nodes[0])
+        console.log(docData.nodes[0].data.value)
+        setloading(false);
+    }
 
     useEffect(() => {
-        setloading(true);
-        onSnapshot(doc(db, "users", localStorage.getItem("uid") as string, "scripts", scriptid!), (doc) => {
-            var scriptData = doc.data() as Script;
-            setsalesScript(scriptData.lines);
-        })
-        setloading(false);
+        fetchInitialDataFromFirebase();
     }, [])
 
 
     const escFunction = (event: any) => {
         if (event.key === "ArrowDown") {
-            if ((index + 2) > salesScript.length) {
-            }
-            else {
-                setindex(index + 1);
-            }
+            var childNodes=[] as Array<Node>
+            edges.forEach((edge)=>{
+                if(edge.source==currentNode.id){
+                    childNodes.push(nodes.find(node=>node.id==edge.target)!);
+                }
+            })
         }
         else if (event.key === "ArrowUp") { // Use strict equality (===)
             if ((index - 1) < 0) {
@@ -38,13 +50,6 @@ function Play() {
             }
             else {
                 setindex(index - 1);
-            }
-        }
-        else if (event.key === "ArrowRight") { // Use strict equality (===)
-            if (salesScript[index]?.pivot == true) {
-                var newMessages = salesScript[index]?.newMessages ?? [];
-                setsalesScript([...newMessages]);
-                setindex(0);
             }
         }
     };
@@ -80,7 +85,7 @@ function Play() {
                     <div className="flex flex-col justify-start items-start gap-4">
 
                         {
-                            salesScript[index]?.text.split(",").map((line, index1) => {
+                            currentNode.data.value?.split(",").map((line, index1) => {
                                 return (
                                     <motion.div
                                         initial={{ opacity: 0 }}
