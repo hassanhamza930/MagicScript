@@ -1,3 +1,5 @@
+import { Position } from "reactflow";
+
 export interface User {
   id?: string;
   email: string;
@@ -18,3 +20,18 @@ export interface Script {
   name: string;
   lines: Array<ScriptLine>;
 }
+
+export type NodeProps<T = any> = {
+  id: string;
+  data: T;
+  dragHandle?: boolean;
+  type?: string;
+  selected?: boolean;
+  isConnectable?: boolean;
+  zIndex?: number;
+  xPos: number;
+  yPos: number;
+  dragging: boolean;
+  targetPosition?: Position;
+  sourcePosition?: Position;
+};
