@@ -5,30 +5,79 @@ import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
 import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import {Node,Edge} from 'reactflow';
+import { Node, Edge, NodeProps } from 'reactflow';
 
 function Play() {
     const [index, setindex] = useRecoilState(indexAtom);
-    const [salesScript, setsalesScript] = useState<Array<ScriptLine>>([]);
     const { scriptid } = useParams();
     const db = getFirestore();
     const [nodes, setNodes] = useRecoilState(nodesAtom);
     const [edges, setEdges] = useRecoilState(edgesAtom);
     const [loading, setloading] = useRecoilState(isLoadingAtom);
-    const [currentNode, setcurrentNode] = useState({} as Node);
-    const [nextNodes, setnextNodes] = useState([] as Array<Node>);
+    const [transformedLines, settransformedLines] = useState([] as Array<ScriptLine>);
+
+
+
+    interface Line{
+        text:string,
+        pivot:boolean,
+        newMessages:Array<Line>
+    }
 
     async function fetchInitialDataFromFirebase() {
         setloading(true);
         var docData = (await getDoc(doc(db, "users", localStorage.getItem('uid')! as string, "scripts", scriptid!))).data() as ScriptExperimental;
         setNodes([...docData.nodes]);
         setEdges([...docData.edges])
-        console.log(docData.nodes);
-        console.log(docData.edges);
-        setcurrentNode(docData.nodes[0])
-        console.log(docData.nodes[0].data.value)
+
+
+        
+        
+        function findTree(startingNode:Node){
+            var tempTransformedLines=[] as Array<Line>
+            var startingNode=docData.nodes[0] as Node
+            var childNodes=[] as Array<Node>
+            var edgeTargets=edges.filter(edge=>edge.source==startingNode.id);
+            if(edgeTargets.length>1){
+                //this is a pivot starter node
+                edgeTargets.forEach((edgeTarget)=>{
+                    childNodes.push(nodes.find((node)=>node.id==edgeTarget.target)!)
+                })
+                
+                tempTransformedLines.push(
+                    {
+                        text:startingNode.data.value,
+                        pivot:startingNode.data.isPivotStarter as boolean,
+                        newMessages:childNodes.map((node)=>{
+                           return{
+                            text:node.data.value,
+                            pivot:false,
+                            newMessages:[]
+                           } 
+                        })
+                    }
+                )
+            }
+            else if(edgeTargets.length==1){
+                //this is a simple node
+                tempTransformedLines.push({
+                    newMessages:[],
+                    pivot:false,
+                    text:nodes.find((node)=>node.id==edgeTargets[0].target)?.data.value!
+                })
+                
+            }
+            
+            return tempTransformedLines;
+    
+        
+        }
+        
+        var result=findTree(docData.nodes[0]);
+        console.log(result);
         setloading(false);
     }
+
 
     useEffect(() => {
         fetchInitialDataFromFirebase();
@@ -37,12 +86,7 @@ function Play() {
 
     const escFunction = (event: any) => {
         if (event.key === "ArrowDown") {
-            var childNodes=[] as Array<Node>
-            edges.forEach((edge)=>{
-                if(edge.source==currentNode.id){
-                    childNodes.push(nodes.find(node=>node.id==edge.target)!);
-                }
-            })
+        //    setcurrentNode(nextNodes[0]);
         }
         else if (event.key === "ArrowUp") { // Use strict equality (===)
             if ((index - 1) < 0) {
@@ -61,11 +105,11 @@ function Play() {
         return () => {
             document.removeEventListener("keyup", escFunction);
         };
-    }, [index, salesScript]);
+    }, [index, transformedLines]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setindex(0);
-    },[])
+    }, [])
 
 
     return (
@@ -80,12 +124,12 @@ function Play() {
                 {/* <div className="flex flex-row justify-between items-center w-48"> <b>Pivot</b> Arrow Right </div> */}
             </div>
 
-            <div style={{ fontFamily: "Roboto" }} className="md:text-6xl font-medium tracking-tight flex flex-col h-full justify-center items-start w-full">
+            {/* <div style={{ fontFamily: "Roboto" }} className="md:text-6xl font-medium tracking-tight flex flex-col h-full justify-center items-start w-full">
                 <div className="w-3/5 flex flex-col justify-start items-start h-[20%] ml-24">
                     <div className="flex flex-col justify-start items-start gap-4">
 
                         {
-                            currentNode.data.value?.split(",").map((line, index1) => {
+                            currentNode?.data?.value?.split(",").map((line, index1) => {
                                 return (
                                     <motion.div
                                         initial={{ opacity: 0 }}
@@ -95,11 +139,11 @@ function Play() {
                                         {
                                             line.trim().split(" ").map((word, index2) => {
                                                 return (
-                                                    <motion.div 
-                                                    initial={{opacity:0}}
-                                                    animate={{opacity:1}}
-                                                    transition={{duration:0.4,delay:0.1*(index1+index2)}}
-                                                    key={word} >
+                                                    <motion.div
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        transition={{ duration: 0.4, delay: 0.1 * (index1 + index2) }}
+                                                        key={word} >
                                                         {word}
                                                     </motion.div>
                                                 )
@@ -125,17 +169,24 @@ function Play() {
                         }
                     </div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                        className="flex flex-row justify-start items-center gap-4 mt-36 text-3xl font-normal text-black/40 tracking-tight">
-                        {salesScript[index + 1]?.text}
-                    </motion.div>
+                    {
+                        nextNodes.length > 0 && nextNodes[0].data.value!=undefined &&
+                        nextNodes.map((node) => {
+                            return (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.8 }}
+                                    className="flex flex-row justify-start items-center gap-4 mt-36 text-3xl font-normal text-black/40 tracking-tight">
+                                    {node.data.value }
+                                </motion.div>
+                            )
+                        })
+                    }
 
                 </div>
 
-            </div>
+            </div> */}
 
 
 
