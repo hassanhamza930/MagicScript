@@ -1,4 +1,4 @@
-import { Position } from "reactflow";
+import { Edge, Node, Position } from "reactflow";
 
 export interface User {
   id?: string;
@@ -21,9 +21,16 @@ export interface Script {
   lines: Array<ScriptLine>;
 }
 
+export interface ScriptExperimental {
+  id?: string;
+  name: string;
+  edges: Array<Edge>;
+  nodes:Array<Node>
+}
+
 export type NodeProps<T = any> = {
   id: string;
-  data: T;
+  data: NodeDataInterface;
   dragHandle?: boolean;
   type?: string;
   selected?: boolean;
@@ -35,3 +42,11 @@ export type NodeProps<T = any> = {
   targetPosition?: Position;
   sourcePosition?: Position;
 };
+
+export interface NodeDataInterface{
+  value:string,
+  id:string,
+  customerSays?:string,
+  isPivotStarter?:boolean,
+}
+

@@ -4,7 +4,7 @@ import { IoReorderThreeSharp } from "react-icons/io5";
 import { useRecoilState } from 'recoil';
 import { edgesAtom, nodesAtom, tipAtom } from '@/atoms/atoms';
 import { Timestamp } from 'firebase/firestore';
-import { NodeProps } from '@/interfaces';
+import { NodeDataInterface, NodeProps } from '@/interfaces';
 
 const handleStyle = { left: 10 };
 
@@ -16,7 +16,7 @@ export default function InputNode(data: NodeProps) {
     const [tip, settip] = useRecoilState(tipAtom);
     const [hasChildren, sethasChildren] = useState(false);
 
-    const onChange = useCallback((evt) => {
+    const onValueChange = (evt) => {
         var tempNodes=Array.from(nodes);
         tempNodes.forEach((node,index)=>{
             if(node.id==data.id){
@@ -24,7 +24,18 @@ export default function InputNode(data: NodeProps) {
             }
         })
         setNodes([...tempNodes])
-    }, []);
+    }
+
+
+    const onCustomerSaysChange = (evt) => {
+        var tempNodes=Array.from(nodes);
+        tempNodes.forEach((node,index)=>{
+            if(node.id==data.id){
+                tempNodes[index]={...tempNodes[index],data:{...tempNodes[index].data,customerSays:evt.target.value} as NodeDataInterface}
+            }
+        })
+        setNodes([...tempNodes])
+    };
 
 
 
@@ -47,14 +58,14 @@ export default function InputNode(data: NodeProps) {
     return (
         <>
             <Handle className='bg-blue-600 h-[10px] w-[10px] ' type="target" position={Position.Top} />
-            <div className='w-full flex flex-col justify-start items-center backdrop-blur-xl'>
+            <div key={data.id} className='w-full flex flex-col justify-start items-center backdrop-blur-xl'>
                 {
                     data.data.isPivotStarter == true &&
                     <div className=' w-full text-xs bg-white/10 text-white rounded-t-sm flex flex-col justify-start items-start'>
                         <div className='px-3 py-2 flex flex-none bg-yellow-400 text-black font-medium w-full'>
                             Customer Says:
                         </div>
-                        <textarea className='font-normal h-20 px-4 py-2 w-full outline-none bg-transparent text-white border-yellow-500 border-2 border-b-0 border-dotted' placeholder="I don't want it"></textarea>
+                        <textarea value={data.data.customerSays} onChange={onCustomerSaysChange} className='font-normal h-20 px-4 py-2 w-full outline-none bg-transparent text-white border-yellow-500 border-2 border-b-0 border-dotted' placeholder="I don't want it"></textarea>
                     </div>
                 }
                 <div onMouseDown={() => { makeIsTip() }} className='bg-white rounded-b-sm flex flex-row py-1 px-2 justify-start items-start w-64'>
@@ -78,7 +89,7 @@ export default function InputNode(data: NodeProps) {
                                         {
                                             id: NewTargetNodeId,
                                             type: "inputNode",
-                                            data: { id: NewTargetNodeId, isPivotStarter: false },
+                                            data: { id: NewTargetNodeId, isPivotStarter: false } as NodeDataInterface,
                                             position: {
                                                 x: data.xPos,
                                                 y: data.data.isPivotStarter == true ? data.yPos + 300 : data.yPos + 200
@@ -113,7 +124,7 @@ export default function InputNode(data: NodeProps) {
                                         {
                                             id: leftTargetNodeId,
                                             type: "inputNode",
-                                            data: { id: leftTargetNodeId, isPivotStarter: true, customerSays: "I Don't want this" },
+                                            data: { id: leftTargetNodeId, isPivotStarter: true, customerSays: "I Don't want this" } as NodeDataInterface,
                                             position: {
                                                 x: data.xPos - 150,
                                                 y: data.yPos + 300
@@ -122,7 +133,7 @@ export default function InputNode(data: NodeProps) {
                                         {
                                             id: rightTargetNodeId,
                                             type: "inputNode",
-                                            data: { id: rightTargetNodeId, isPivotStarter: true, customerSays: "I think its too expensive" },
+                                            data: { id: rightTargetNodeId, isPivotStarter: true, customerSays: "I think its too expensive" } as NodeDataInterface,
                                             position: {
                                                 x: data.xPos + 150,
                                                 y: data.yPos + 300
@@ -155,7 +166,7 @@ export default function InputNode(data: NodeProps) {
                            
                     }
               
-                    <textarea placeholder='Next Line' value={data.data.value} onChange={onChange} id="text" name="text"  className="nodrag h-24 w-full text-xs p-2 outline-none" />
+                    <textarea placeholder='Next Line' value={data.data.value} onChange={onValueChange} id="text" name="text"  className="nodrag h-24 w-full text-xs p-2 outline-none" />
                 </div>
             </div>
             <Handle className='bg-blue-600 h-[10px] w-[10px] ' type="source" position={Position.Bottom} id="a" />

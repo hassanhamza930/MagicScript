@@ -8,6 +8,7 @@ import EditScript from "../editScript";
 import License from "../license";
 import Feedback from "../feedback";
 import NewScriptExperimental from "../newScriptExperimental/newScriptExperimental";
+import Analytics from "../analytics";
 
 function LoggedInRoutes() {
     return (
@@ -31,10 +32,11 @@ function LoggedInRoutes() {
                     <Route path="/" element={<Scripts />} />
                     <Route path="/newscript" element={<NewScript />} />
                     <Route path="/newscriptexperimental" element={<NewScriptExperimental />} />
-                    <Route path="/edit/:scriptid" element={<EditScript />} />
+                    <Route path="/edit/:scriptid" element={<NewScriptExperimental />} />
                     <Route path="/play/:scriptid" element={<Play />} />
                     <Route path="/license" element={<License />} />
                     <Route path="/feedback" element={<Feedback />} />
+                    <Route path="/analytics" element={<Analytics />} />
                 </Routes>
             </div>
         </div>

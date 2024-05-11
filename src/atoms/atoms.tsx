@@ -1,4 +1,4 @@
-import { User } from "@/interfaces";
+import { NodeDataInterface, User } from "@/interfaces";
 import { Edge, Node } from "reactflow";
 import { atom } from "recoil";
 
@@ -20,18 +20,19 @@ export const currentUserAtom=atom({
 })
 
 
+
 export const nodesAtom=atom({
     key:"nodesAtom",
     default: [
         {
             id: '1',
-            data: { value:"Hello this is the first input" },
+            data: { value:"Hello this is the first input" } as NodeDataInterface,
             position: { x: 0, y: 0,id:"1" },
             type: 'inputNode',
         },
         {
             id: '2',
-            data: { label: 'World',id:"2",x:100,y:100,value:"Checkig if this would work" },
+            data: { label: 'World',id:"2",x:100,y:100,value:"Checkig if this would work" } as NodeDataInterface,
             position: { x: 0, y: 200 },
             type:"inputNode"
         },

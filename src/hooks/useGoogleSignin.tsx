@@ -32,35 +32,35 @@ export default function useHandleGoogleSignIn() {
 
             await setDoc(doc(db,"users",user.uid),userDataToDumpOnFirebase,{merge:true});
             localStorage.setItem("uid",user.uid);
-            await setDoc(doc(db,"users",user.uid,"scripts","demo"),{
-                name:"Demo Script",
-                lines:[
-                    {
-                        text:"Hello, My name is Hamza, and this is the most confident i have ever sounded on call",
-                    },
-                    {
-                        text:"You can only relate to the feeling once you've been through this experience, You're trying to remember what to say and how to say it while staying confident and you end up blanking and taking 3 second long pauses. Sounds familiar right?"
-                    },
-                    {
-                        text:"Newscasters have been using teleprompters for 50+ Years, Inspired by that, I created Magic Script"
-                    },
-                    {
-                        text:"Magic Script is a teleprompter designed specifically for sales people, to make cold calling a breeze"
-                    },
-                    {
-                        text:"Using a Teleprompter allows you to stay focused, Keep the conversation on track, Always sound more confident on calls, and close more deals"
-                    },
-                    {
-                        text:"I'm actively adding features like, The Ability to Pivot and create multiple scenarios within one script, Custom shortcuts to handle common objections, and much more"
-                    },
-                    {
-                        text:"Visit our website, to Sign up for early bird pricing and get lifetime access for just $10 and support development."
-                    },
-                    {
-                        text:"Happy Selling!"
-                    }
-                ]
-            } as Script,{merge:true});
+            // await setDoc(doc(db,"users",user.uid,"scripts","demo"),{
+            //     name:"Demo Script",
+            //     lines:[
+            //         {
+            //             text:"Hello, My name is Hamza, and this is the most confident i have ever sounded on call",
+            //         },
+            //         {
+            //             text:"You can only relate to the feeling once you've been through this experience, You're trying to remember what to say and how to say it while staying confident and you end up blanking and taking 3 second long pauses. Sounds familiar right?"
+            //         },
+            //         {
+            //             text:"Newscasters have been using teleprompters for 50+ Years, Inspired by that, I created Magic Script"
+            //         },
+            //         {
+            //             text:"Magic Script is a teleprompter designed specifically for sales people, to make cold calling a breeze"
+            //         },
+            //         {
+            //             text:"Using a Teleprompter allows you to stay focused, Keep the conversation on track, Always sound more confident on calls, and close more deals"
+            //         },
+            //         {
+            //             text:"I'm actively adding features like, The Ability to Pivot and create multiple scenarios within one script, Custom shortcuts to handle common objections, and much more"
+            //         },
+            //         {
+            //             text:"Visit our website, to Sign up for early bird pricing and get lifetime access for just $10 and support development."
+            //         },
+            //         {
+            //             text:"Happy Selling!"
+            //         }
+            //     ]
+            // } as Script,{merge:true});
             setisLoading(false);
             window.location.href="/"
 

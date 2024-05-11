@@ -1,6 +1,6 @@
 import { currentUserAtom } from "@/atoms/atoms";
 import { useRecoilState } from "recoil";
-import { FiAlignLeft, FiBarChart, FiDollarSign, FiLogOut, FiMessageSquare } from "react-icons/fi";
+import { FiAlignLeft, FiBarChart, FiBarChart2, FiDollarSign, FiLogOut, FiMessageSquare } from "react-icons/fi";
 import { FaAlignLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -49,6 +49,7 @@ function LoggedInNavBar() {
             {/* <NavItem icon={<FiBarChart size={15}/>} title="Analytics" onClick={()=>{navigate('/analytics')}} /> */}
             <NavItem icon={<FiDollarSign size={15}/>} title="License" onClick={()=>{navigate('/license')}} />
             <div className="w-full h-[2px] bg-white/10 mb-5 mt-3"></div>
+            <NavItem icon={<FiBarChart size={15}/>} title="Analytics" onClick={()=>{navigate('/analytics')}} />
             <NavItem icon={<FiMessageSquare size={15}/>} title="Feedback" onClick={()=>{navigate('/feedback')}} />
             <NavItem icon={<FiLogOut size={15}/>} title="Log Out" onClick={()=>{localStorage.clear();window.location.href="/"}} />
 
