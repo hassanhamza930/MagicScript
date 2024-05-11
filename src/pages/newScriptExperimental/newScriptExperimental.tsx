@@ -1,7 +1,8 @@
 import 'reactflow/dist/style.css';
 import ReactFlow, { Background, Controls, Edge, EdgeTypes, Node } from 'reactflow';
 import { applyEdgeChanges, applyNodeChanges,addEdge } from 'reactflow';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import InputNode from './customNodeType';
 
 
 
@@ -18,6 +19,7 @@ function NewScriptExperimental() {
             id: '2',
             data: { label: 'World' },
             position: { x: 100, y: 100 },
+            type:"inputNode"
         },
     ];
 
@@ -42,6 +44,9 @@ function NewScriptExperimental() {
         [],
       );
 
+      const nodeTypes = useMemo(() => ({ inputNode: InputNode }), []);
+
+
       
     return (
         <div className="flex h-full w-full justify-center items-center">
@@ -51,6 +56,7 @@ function NewScriptExperimental() {
                 fitView 
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                nodeTypes={nodeTypes}
                 >
                 <Background />
                 <Controls />

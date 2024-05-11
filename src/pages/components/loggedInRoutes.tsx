@@ -7,7 +7,7 @@ import Play from "../play";
 import EditScript from "../editScript";
 import License from "../license";
 import Feedback from "../feedback";
-import NewScriptExperimental from "../newScriptExperimental";
+import NewScriptExperimental from "../newScriptExperimental/newScriptExperimental";
 
 function LoggedInRoutes() {
     return (
