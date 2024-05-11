@@ -35,6 +35,10 @@ function NewScriptExperimental() {
         setloading(false);
     }
 
+
+
+    
+
     useEffect(() => {
         if (scriptid != undefined) {
             fetchInitialDataFromFirebase();

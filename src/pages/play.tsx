@@ -1,5 +1,5 @@
 import { edgesAtom, indexAtom, isLoadingAtom, nodesAtom } from "@/atoms/atoms";
-import { ScriptExperimental, ScriptLine } from "@/interfaces";
+import { ScriptExperimental, ScriptLine, ScriptLineExperimental } from "@/interfaces";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
@@ -14,67 +14,16 @@ function Play() {
     const [nodes, setNodes] = useRecoilState(nodesAtom);
     const [edges, setEdges] = useRecoilState(edgesAtom);
     const [loading, setloading] = useRecoilState(isLoadingAtom);
-    const [transformedLines, settransformedLines] = useState([] as Array<ScriptLine>);
-
-
-
-    interface Line{
-        text:string,
-        pivot:boolean,
-        newMessages:Array<Line>
-    }
+    const [currentNode, setcurrentNode] = useState({} as Node);
+    const [nextNodes, setnextNodes] = useState({} as Array<Node>);
+    //need to use the approach to calculate stuff in the up and down functions rather than having to precompile the whole list.
+    
 
     async function fetchInitialDataFromFirebase() {
         setloading(true);
         var docData = (await getDoc(doc(db, "users", localStorage.getItem('uid')! as string, "scripts", scriptid!))).data() as ScriptExperimental;
         setNodes([...docData.nodes]);
         setEdges([...docData.edges])
-
-
-        
-        
-        function findTree(startingNode:Node){
-            var tempTransformedLines=[] as Array<Line>
-            var startingNode=docData.nodes[0] as Node
-            var childNodes=[] as Array<Node>
-            var edgeTargets=edges.filter(edge=>edge.source==startingNode.id);
-            if(edgeTargets.length>1){
-                //this is a pivot starter node
-                edgeTargets.forEach((edgeTarget)=>{
-                    childNodes.push(nodes.find((node)=>node.id==edgeTarget.target)!)
-                })
-                
-                tempTransformedLines.push(
-                    {
-                        text:startingNode.data.value,
-                        pivot:startingNode.data.isPivotStarter as boolean,
-                        newMessages:childNodes.map((node)=>{
-                           return{
-                            text:node.data.value,
-                            pivot:false,
-                            newMessages:[]
-                           } 
-                        })
-                    }
-                )
-            }
-            else if(edgeTargets.length==1){
-                //this is a simple node
-                tempTransformedLines.push({
-                    newMessages:[],
-                    pivot:false,
-                    text:nodes.find((node)=>node.id==edgeTargets[0].target)?.data.value!
-                })
-                
-            }
-            
-            return tempTransformedLines;
-    
-        
-        }
-        
-        var result=findTree(docData.nodes[0]);
-        console.log(result);
         setloading(false);
     }
 

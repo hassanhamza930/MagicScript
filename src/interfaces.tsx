@@ -8,25 +8,7 @@ export interface User {
   plan: "Paid" | "Free";
 }
 
-export interface ScriptLine {
-  id?: string;
-  text: string;
-  pivot?: boolean;
-  newMessages?: Array<ScriptLine>;
-}
 
-export interface Script {
-  id?: string;
-  name: string;
-  lines: Array<ScriptLine>;
-}
-
-export interface ScriptExperimental {
-  id?: string;
-  name: string;
-  edges: Array<Edge>;
-  nodes:Array<Node>
-}
 
 export type NodeProps<T = any> = {
   id: string;
