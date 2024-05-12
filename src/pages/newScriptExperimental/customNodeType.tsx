@@ -6,6 +6,7 @@ import { edgesAtom, nodesAtom, tipAtom } from '@/atoms/atoms';
 import { Timestamp } from 'firebase/firestore';
 import { NodeDataInterface, NodeProps } from '@/interfaces';
 import { FaTrash } from 'react-icons/fa';
+import ControlledInput from '../components/controlledInput';
 
 const handleStyle = { left: 10 };
 
@@ -15,6 +16,8 @@ export default function InputNode(data: NodeProps) {
     const [nodes, setNodes] = useRecoilState(nodesAtom);
     const [edges, setEdges] = useRecoilState(edgesAtom);
     const [tip, settip] = useRecoilState(tipAtom);
+
+
 
     const onValueChange = (evt) => {
         var tempNodes=Array.from(nodes);
@@ -65,7 +68,7 @@ export default function InputNode(data: NodeProps) {
                         <div className='px-3 py-2 flex flex-none bg-yellow-400 text-black font-medium w-full'>
                             Customer Says:
                         </div>
-                        <textarea value={data.data.customerSays} onChange={onCustomerSaysChange} className='font-normal h-20 px-4 py-2 w-full outline-none bg-transparent text-white border-yellow-500 border-2 border-b-0 border-dotted' placeholder="I don't want it"></textarea>
+                        <ControlledInput value={data.data.customerSays} onChange={onCustomerSaysChange} className='font-normal h-20 px-4 py-2 w-full outline-none bg-transparent text-white border-yellow-500 border-2 border-b-0 border-dotted' placeholder="I don't want it"></ControlledInput>
                     </div>
                 }
                 <div onMouseDown={() => { makeIsTip() }} className='bg-white rounded-b-sm flex flex-row py-1 px-2 justify-start items-start w-64'>
@@ -183,7 +186,7 @@ export default function InputNode(data: NodeProps) {
                            
                     }
               
-                    <textarea placeholder='Next Line' value={data.data.value} onChange={onValueChange} id="text" name="text"  className="nodrag h-24 w-full text-xs p-2 outline-none" />
+                    <ControlledInput placeholder='Next Line' value={data.data.value} onChange={onValueChange} id="text" name="text"  className="nodrag h-24 w-full text-xs p-2 outline-none" />
                 </div>
             </div>
             <Handle className='bg-blue-600 h-[10px] w-[10px] ' type="source" position={Position.Bottom} id="a" />

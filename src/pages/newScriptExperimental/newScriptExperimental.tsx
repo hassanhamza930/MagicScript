@@ -4,7 +4,7 @@ import { applyEdgeChanges, applyNodeChanges, addEdge } from 'reactflow';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import InputNode from './customNodeType';
 import { useRecoilState } from 'recoil';
-import { nodesAtom, edgesAtom, isLoadingAtom } from '@/atoms/atoms';
+import { nodesAtom, edgesAtom, isLoadingAtom, tipAtom } from '@/atoms/atoms';
 import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,11 @@ function NewScriptExperimental() {
     const { scriptid } = useParams();
     const db = getFirestore();
     const navigate=useNavigate();
+    const [tip, settip] = useRecoilState(tipAtom);
+
+    useEffect(()=>{
+        settip("");
+    },[])
 
 
 
@@ -123,15 +128,23 @@ function NewScriptExperimental() {
         navigate('/')
     }
 
+    function onEdgesChange(changes: any) {
+        setEdges((eds) => applyEdgeChanges(changes, eds));
+        settip("");
+    }
 
+    function onConnect(params: any) {
+        setEdges((eds) => addEdge(params, eds));
+        settip("");
+    }
 
     return (
         <div className="flex h-full w-full justify-start items-start">
             <ReactFlow nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}
-                // onEdgesChange={onEdgesChange}
-                // onConnect={onConnect}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
                 nodeTypes={nodeTypes}
                 fitView
             >
