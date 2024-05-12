@@ -57,17 +57,17 @@ function Scripts() {
             scripts.map((script) => {
               return (
                 <div key={script.id!} style={{ fontFamily: "Inter" }} className="text-start hover:transition-all duration-300 hover:shadow-yellow-600/60 flex flex-col justify-start items-start gap-2 shadow-2xl shadow-yellow-600/20 bg-gradient-to-b from-white/80 to-white/60 text-black/80 rounded-md px-4 py-3 w-96 h-64 tracking-tight">
-                  <div className="text-xl font-semibold w-full border-b-[1px] border-b-black/60 pb-2 overflow-hidden flex justify-start items-start h-10">{script.name}</div>
-                  <div className="text-sm font-medium w-full flex flex-col gap-1 justify-start items-start h-full overflow-y-clip">
+                  <div className="text-xl font-bold w-full border-b-[1px] border-b-black/60 pb-2 overflow-hidden flex justify-start items-start h-10">{script.name}</div>
+                  <div className="text-sm w-full flex flex-col gap-1 justify-start items-start h-full overflow-y-clip">
 
                     {
                       script.nodes.map((node, index) => {
                         return (
-                          <div className="flex flex-row justify-start items-start gap-1 font-bold w-full">
+                          <div className="flex flex-row justify-start items-start gap-1 font-medium w-full">
                             {
                               `${index+1}.`
                             }
-                            <div>
+                            <div className="">
                               
                               {
                                 node.data.value

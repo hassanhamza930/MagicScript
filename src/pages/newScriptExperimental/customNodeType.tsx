@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { edgesAtom, nodesAtom, tipAtom } from '@/atoms/atoms';
 import { Timestamp } from 'firebase/firestore';
 import { NodeDataInterface, NodeProps } from '@/interfaces';
+import { FaTrash } from 'react-icons/fa';
 
 const handleStyle = { left: 10 };
 
@@ -14,7 +15,6 @@ export default function InputNode(data: NodeProps) {
     const [nodes, setNodes] = useRecoilState(nodesAtom);
     const [edges, setEdges] = useRecoilState(edgesAtom);
     const [tip, settip] = useRecoilState(tipAtom);
-    const [hasChildren, sethasChildren] = useState(false);
 
     const onValueChange = (evt) => {
         var tempNodes=Array.from(nodes);
@@ -75,6 +75,19 @@ export default function InputNode(data: NodeProps) {
                         <div className='w-full h-[1px] bg-black/90'></div>
                     </div>
 
+
+                    {
+                        tip==data.id&&
+                        <div className='absolute z-10 right-0 -mr-16 flex flex-row w-auto gap-2'>
+                            <button onClick={()=>{
+                                settip("");
+                                setNodes(nodes.filter((node)=>node.id!=data.id))
+                                setEdges(edges.filter((edge)=>edge.source!=data.id&&edge.target!=data.id))
+                            }} className='text-xs px-5 py-2 rounded-sm bg-white text-red-500 hover:scale-105 transition-all duration-300'>
+                                <FaTrash className=''/>
+                            </button>
+                        </div>
+                    }
                     {
                         tip == data.id &&
                             <div className='absolute z-10 bottom-0 -mb-8 flex flex-row w-auto gap-2'>
@@ -104,7 +117,8 @@ export default function InputNode(data: NodeProps) {
                                             id: `${data.id}-${NewTargetNodeId}`,
                                             source: data.id,
                                             target: NewTargetNodeId,
-                                            type: "smoothstep"
+                                            type: "smoothstep",
+                                            animated:true
                                         }
                                         ]
                                     )
@@ -148,13 +162,16 @@ export default function InputNode(data: NodeProps) {
                                             id: `${data.id}-${leftTargetNodeId}`,
                                             source: data.id,
                                             target: leftTargetNodeId,
-                                            type: "smoothstep"
+                                            type: "smoothstep",
+                                            animated:true
                                         },
                                         {
                                             id: `${data.id}-${rightTargetNodeId}`,
                                             source: data.id,
                                             target: rightTargetNodeId,
-                                            type: "smoothstep"
+                                            type: "smoothstep",
+                                            animated:true
+
                                         }
                                         ]
                                     )

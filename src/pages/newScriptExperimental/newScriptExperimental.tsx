@@ -42,6 +42,38 @@ function NewScriptExperimental() {
     useEffect(() => {
         if (scriptid != undefined) {
             fetchInitialDataFromFirebase();
+        }else{
+            setNodes([
+                {
+                    id:"1",
+                    position:{x:0,y:0},
+                    data:{
+                        id:"1",
+                        value:"Starting Line",
+                        isPivotStarter:false
+                    },
+                    type:"inputNode"
+                },
+                {
+                    id:"2",
+                    position:{x:0,y:300},
+                    data:{
+                        id:"2",
+                        value:"Next Line",
+                        isPivotStarter:false
+                    },
+                    type:"inputNode"
+                },
+            ] as Array<Node>)
+            setEdges([
+                {
+                    id:"e1-2",
+                    source:"1",
+                    target:"2",
+                    animated:true,
+                    type:"smoothstep",
+                }
+            ] as Array<Edge>)
         }
     }, [])
 
@@ -50,15 +82,15 @@ function NewScriptExperimental() {
         (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
         [],
     );
-    const onEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        [],
-    );
+    // const onEdgesChange = useCallback(
+    //     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    //     [],
+    // );
 
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [],
-    );
+    // const onConnect = useCallback(
+    //     (params) => setEdges((eds) => addEdge(params, eds)),
+    //     [],
+    // );
 
     const nodeTypes = useMemo(() => ({ inputNode: InputNode }), []);
 
@@ -98,8 +130,8 @@ function NewScriptExperimental() {
             <ReactFlow nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
+                // onEdgesChange={onEdgesChange}
+                // onConnect={onConnect}
                 nodeTypes={nodeTypes}
                 fitView
             >

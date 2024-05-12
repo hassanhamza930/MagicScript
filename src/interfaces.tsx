@@ -9,6 +9,12 @@ export interface User {
 }
 
 
+export interface ScriptExperimental{
+  nodes:Array<Node>
+  edges:Array<Edge>
+  name:string
+}
+
 
 export type NodeProps<T = any> = {
   id: string;

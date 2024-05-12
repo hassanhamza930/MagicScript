@@ -121,8 +121,8 @@ function License() {
 
                         {
                             loggedInUser.plan != "Paid" &&
-                            <Button onClick={() => { window.open("https://hassanhamza930.gumroad.com/l/magicscript") }} className="bg-black/80 px-6 py-2 text-md text-white/80 font-normal mt-10">
-                                Buy Now: $10
+                            <Button onClick={() => { window.open("https://hassanhamza930.gumroad.com/l/closey") }} className="bg-black/80 px-6 py-2 text-md text-white/80 font-normal mt-10">
+                                Buy Now: $5
                             </Button>
                         }
 

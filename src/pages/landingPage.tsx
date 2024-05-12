@@ -1,7 +1,7 @@
 import { NavBar } from "@/components/Navbar";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { Timestamp, addDoc, collection, getFirestore } from "firebase/firestore";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Feature from "./components/feature";
 import card from '../../public/assets/card.svg';
@@ -9,11 +9,15 @@ import ai from "../../public/assets/openai.png";
 import chat from "../../public/assets/chat.gif";
 import { LiaCommentSolid } from "react-icons/lia";
 import { CiFileOn } from "react-icons/ci";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import demogif from "../../public/assets/demogif.gif";
 import useHandleGoogleSignIn from "@/hooks/useGoogleSignin";
 import { Button } from "@/components/ui/button";
 import { Card, ContainerScroll } from "./components/containerScroll";
+import { useRecoilState } from "recoil";
+import { currentNodeAtom, edgesAtom, nodesAtom } from "@/atoms/atoms";
+import Play from "./play";
+import Intro from "./components/introComponent";
 
 
 function LandingPage() {
@@ -21,6 +25,7 @@ function LandingPage() {
 
   const navigate = useNavigate();
   const db = getFirestore();
+  const [intro, setintro] = useState(true);
 
   useEffect(() => {
     addDoc(collection(db, "visits"), {
@@ -46,14 +51,23 @@ function LandingPage() {
 
 
   return (
-    <main style={{ backgroundImage: `url('https://static.vecteezy.com/system/resources/previews/025/946/942/non_2x/seamless-geometric-diagonal-grid-with-polka-dot-in-the-middle-of-square-pattern-with-bow-ties-for-tiles-fabric-stripes-clothing-and-tablecloths-free-vector.jpg')`, backgroundSize: window.innerWidth<1280? "6%":"1%" }} id="no_scroll" className=" bg-contain bg-repeat w-full flex flex-col justify-start items-center relative bg-[#FBFBFB] overflow-x-hidden ">
+    <main id="no_scroll" className=" bg-contain bg-repeat w-full flex flex-col justify-start items-center relative bg-[#FBFBFB] overflow-x-hidden ">
+      {/* <IntroAnimation/> */}
+      <AnimatePresence>
+        {
+          intro == true &&
+          <div className="fixed z-[150] h-screen w-full flex justify-start items-center backdrop-blur-xl">
+            <Intro setintro={setintro} />
+          </div>
+        }
+      </AnimatePresence>
 
       <div className="h-full w-full flex flex-col justify-start items-center bg-[#FBFBFB]/60 px-5 pt-32">
         <NavBar />
 
         <div className="w-full flex flex-col justify-start items-center mt-12 md:mt-16 tracking-tight text-black/90 text-center">
-          <div style={{ fontFamily: "Pacifico" }} className="gradient-text text-6xl md:text-8xl tracking-tighter px-5 md:p-24 py-16">MagicScript</div>
-          <div style={{ fontFamily: "Inter" }} className="text-2xl md:text-3xl mt-2 opacity-80 tracking-tight font-bold ">Sound<span className="italic underline ml-1">100x more Confident</span><br/>on Cold Calls</div>
+          <div style={{ fontFamily: "Pacifico" }} className="gradient-text text-8xl md:text-9xl tracking-tight px-5 pt-12 pb-20">Closey</div>
+          <div style={{ fontFamily: "Inter" }} className="text-2xl md:text-3xl opacity-80 tracking-tight font-bold ">Sound<span className="italic underline ml-1">100x more Confident</span><br />on Cold Calls</div>
           <div style={{ fontFamily: "Roboto" }} className="text-sm md:text-xl font-normal mt-1 opacity-60 tracking-normal text-center flex">Never go Blank on another sales call, ever again.<br /> Stay on point, Pivot Easily and close more deals</div>
 
           <div style={{ fontFamily: "Inter" }} className="flex flex-row justify-center items-center w-full gap-4 mt-5">
@@ -92,7 +106,7 @@ function LandingPage() {
               <div className="h-1/4 w-64 bg-gradient-to-bl from-[#57ebde] to-[#aefb2a] text-black/80 bg-center bg-cover tracking-tighter">
                 <div className="flex flex-col justify-center items-center gap-0 h-full w-full bg-yellow-300/70 backdrop-blur-xl">
                   <div className="text-3xl font-semibold">
-                    $10
+                    $5
                   </div>
                   <div className="text-sm font-normal opacity-70">
                     Lifetime Access
@@ -130,30 +144,30 @@ function LandingPage() {
 
 
         <div className="flex flex-col w-full mt-10 md:mt-48 justify-start items-center text-black/80">
-          <div className="text-3xl font-bold ">Feature Roadmap</div>
-          <div className="text-sm font-normal text-center px-5">We're working very hard to add more features on a daily basis,<br className="md:flex hidden"/> Signup now to avail early bird pricing and get all future features for free</div>
+          <div className="text-3xl font-bold ">Features</div>
+          <div className="text-sm font-normal text-center px-5">We're working very hard to add more features on a daily basis,<br className="md:flex hidden" /> Signup now to avail early bird pricing and get all future features for free</div>
 
           <div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-2 mt-10">
 
             <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
-              <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 1 Week</div>
+              {/* <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 1 Week</div> */}
               <div className="text-xl font-medium mt-2">Pivot</div>
               <div className="text-sm font-normal">Don't look up what to say on a call, press a button to pivot the script and handle all counters gracefully</div>
             </div>
 
             <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
-              <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 2 Weeks</div>
+              {/* <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 2 Weeks</div> */}
               <div className="text-xl font-medium mt-2">Shortcuts</div>
               <div className="text-sm font-normal">Don't mess up your script by writing tons of notes, Create custom shortcuts to handle the most common objections with ease</div>
             </div>
 
             <div className="flex flex-col justify-start items-start w-96 h-40 p-4 border-2 border-black/40 rounded-md">
-              <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 4 Weeks</div>
+              {/* <div className="text-[10px] font-normal bg-black px-4 py-1 rounded-full text-white">ETA: 4 Weeks</div> */}
               <div className="text-xl font-medium mt-2">Analytics</div>
               <div className="text-sm font-normal">Sales is a business of scale, figure out exactly where customers are dropping off by analyzing most common script flow patterns to improve continuously</div>
             </div>
 
-           
+
 
           </div>
 

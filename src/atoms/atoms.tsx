@@ -24,18 +24,6 @@ export const currentUserAtom=atom({
 export const nodesAtom=atom({
     key:"nodesAtom",
     default: [
-        {
-            id: '1',
-            data: { value:"Hello this is the first input" } as NodeDataInterface,
-            position: { x: 0, y: 0,id:"1" },
-            type: 'inputNode',
-        },
-        {
-            id: '2',
-            data: { label: 'World',id:"2",x:100,y:100,value:"Checkig if this would work" } as NodeDataInterface,
-            position: { x: 0, y: 200 },
-            type:"inputNode"
-        },
     ] as Array<Node>    
 })
 
@@ -43,11 +31,6 @@ export const nodesAtom=atom({
 export const edgesAtom=atom({
     key:"edgesAtom",
     default: [
-        {
-            id:"edge1-2",
-            source:"1",
-            target:'2'
-        }
     ] as Array<Edge>    
 })
 
@@ -55,4 +38,20 @@ export const edgesAtom=atom({
 export const tipAtom=atom({
     key:"tipAtom",
     default:""
+})
+
+
+export const currentNodeAtom=atom({
+    key:"currentNodeAtom",
+    default:{} as Node
+})
+
+export const nextNodesAtom=atom({
+    key:"nextNodesAtom",
+    default:[] as Array<Node>
+})
+
+export const previousNodesAtom=atom({
+    key:"previousNodesAtom",
+    default:[] as Array<Node>
 })

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Demo from "../Demo";
 import LandingPage from "../landingPage";
+import Play from "../play";
 
 function LoggedOutRoutes() {
     return (
@@ -19,7 +20,7 @@ function LoggedOutRoutes() {
                     </div> :
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
-                        <Route path="/demo" element={<Demo />} />
+                        <Route path="/demo" element={<Play isDemo={true}  />} />
                     </Routes>
             }
 
