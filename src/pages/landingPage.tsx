@@ -28,10 +28,12 @@ function LandingPage() {
   const [intro, setintro] = useState(true);
 
   useEffect(() => {
+   if(window.location.origin.includes("localhost")==false){
+    console.log("adding visit");
     addDoc(collection(db, "visits"), {
       visitTime: Timestamp.now()
     });
-
+   }
     document.querySelector('video')!.playbackRate = 1.15;
   }, [])
 
