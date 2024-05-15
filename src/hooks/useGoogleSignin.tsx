@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import {Script, User} from "@/interfaces";
+import { ScriptExperimental, User} from "@/interfaces";
 
 
 export default function useHandleGoogleSignIn() {
@@ -32,9 +32,13 @@ export default function useHandleGoogleSignIn() {
 
             await setDoc(doc(db,"users",user.uid),userDataToDumpOnFirebase,{merge:true});
             localStorage.setItem("uid",user.uid);
-            await getDoc((doc(db,"users","bsLJCL8rBKRy1xxFVNjSik0khOO2","scripts","caDtRIXEfa4IC4FB06as"))).then(async(docData)=>{
-                await setDoc(doc(db,"users",user.uid,"scripts","demo"),docData.data() as Script,{merge:true});
-            });
+            var demoDocExists=await getDoc(doc(db,"users",user.uid,"scripts","demo")).then((doc)=>{return doc.exists();});
+           
+            if(demoDocExists==false){
+                await getDoc((doc(db,"users","bsLJCL8rBKRy1xxFVNjSik0khOO2","scripts","caDtRIXEfa4IC4FB06as"))).then(async(docData)=>{
+                    await setDoc(doc(db,"users",user.uid,"scripts","demo"),docData.data() as ScriptExperimental,{merge:true});
+                });
+            }
 
             setisLoading(false);
             window.location.href="/"
