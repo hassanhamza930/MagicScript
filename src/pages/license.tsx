@@ -101,13 +101,13 @@ function License() {
                     <div className="h-full w-full bg-yellow-400 backdrop-blur-xl p-5 flex flex-col justify-start items-start">
                         <span className="text-2xl font-medium text-start">
                             {
-                                loggedInUser.plan == "Paid" ? "Wohoo! you are on the lifetime access plan" : "Get Lifetime Access"
+                                loggedInUser.plan == "Paid" ? "Wohoo! you are on the lifetime access plan" : "Get Access Today!"
                             }
                         </span>
                         <span className="text-sm opacity-70 text-start">
 
                             {
-                                loggedInUser.plan == "Paid" ? "You will have early access to all the features that are under dev!" : "Take advantage of early bird pricing and get lifetime access along with all future updates."
+                                loggedInUser.plan == "Paid" ? "You will have early access to all the features that are under dev!" : "Take advantage of early bird pricing and get access now along with all future updates."
                             }
                         </span>
 
@@ -141,7 +141,8 @@ function License() {
                                 <Button onClick={() => { window.open("https://hassanhamza930.gumroad.com/l/closeysub") }} className="bg-black/80 hover:text-white hover:bg-blue-600 px-6 py-2 text-md text-white/80 font-normal mt-10">
                                     Start 1 Week Free Trial
                                 </Button>
-                                <div className="mt-4 text-sm ml-1">$10/ Month Afterwards</div>
+                                <div className="mt-4 text-sm ml-1">Cancel anytime</div>
+                                <div className="mt-1 text-sm ml-1">$10/ Month Afterwards</div>
                             </>
                         }
 
