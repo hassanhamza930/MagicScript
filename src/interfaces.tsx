@@ -6,6 +6,8 @@ export interface User {
   name: string;
   photoUrl: string;
   plan: "Paid" | "Free";
+  early?: boolean;
+  licenseKey?: string;
 }
 
 

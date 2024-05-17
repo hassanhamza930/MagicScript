@@ -45,10 +45,6 @@ function App() {
   },[])
 
 
-  // QeInMouj1K62AJKnQELINA==
-  //product id for gumroad
-
-
   return (
     <body style={{ fontFamily: "Roboto" }} className='relative h-screen w-full flex justify-start items-start'>
         <Toaster />
