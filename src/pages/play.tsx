@@ -35,14 +35,14 @@ function NextNodePreview(props: { nextNodes: Array<Node> }) {
                             className="flex flex-row justify-start items-center gap-4 text-3xl font-normal text-black/40 tracking-tight">
                             {
                                 pivotNode == true ?
-                                    <div className="flex flex-row justify-start items-center gap-2 w-full bg-black/5 text-black/80 rounded-sm px-5 py-2">
+                                    <div className={`flex flex-row justify-start items-center gap-2 w-full ${index==0?"bg-indigo-600":"bg-black/80"} text-white rounded-sm px-5 py-2`}>
                                         {
                                             index == 0 &&
-                                            <FaArrowRight size={20} />
+                                            <FaArrowRight size={15} />
                                         }
                                         {
                                             index == 1 &&
-                                            <FaArrowLeft size={20} />
+                                            <FaArrowLeft size={15} />
                                         }
                                         <div className="flex flex-col justify-center items-start gap-1">
                                             <div className="text-xl tracking-tight">{node.data.customerSays}</div>
@@ -67,7 +67,7 @@ function NextNodePreview(props: { nextNodes: Array<Node> }) {
 
 
 
-function Play(props:{isDemo:boolean}) {
+function Play(props: { isDemo: boolean }) {
     const [index, setindex] = useRecoilState(indexAtom);
     const { scriptid } = useParams();
     const db = getFirestore();
@@ -77,6 +77,7 @@ function Play(props:{isDemo:boolean}) {
     const [currentNode, setcurrentNode] = useRecoilState(currentNodeAtom);
     const [nextNodes, setnextNodes] = useRecoilState(nextNodesAtom);
     const [previousNodes, setpreviousNodes] = useRecoilState(previousNodesAtom);
+    const [shifting, setshifting] = useState(false);
 
 
     function findNextNodes(initialNode: Node, edgesProp: Array<Edge>, nodesProp: Array<Node>): Array<Node> {
@@ -107,7 +108,7 @@ function Play(props:{isDemo:boolean}) {
 
     useEffect(() => {
         setloading(true);
-        var unsub = onSnapshot(doc(db, "users", props.isDemo!=true?localStorage.getItem('uid')! as string:"bsLJCL8rBKRy1xxFVNjSik0khOO2", "scripts", props.isDemo!=true?scriptid!:"caDtRIXEfa4IC4FB06as"), (doc) => {
+        var unsub = onSnapshot(doc(db, "users", props.isDemo != true ? localStorage.getItem('uid')! as string : "bsLJCL8rBKRy1xxFVNjSik0khOO2", "scripts", props.isDemo != true ? scriptid! : "caDtRIXEfa4IC4FB06as"), (doc) => {
             var docData = doc.data() as ScriptExperimental;
             setNodes([...docData.nodes]);
             setEdges([...docData.edges])
@@ -119,7 +120,10 @@ function Play(props:{isDemo:boolean}) {
         return (() => { unsub() })
     }, [])
 
-    const escFunction = (event: any) => {
+
+
+    
+    const escFunction = async (event: any) => {
         if (event.key === "ArrowDown") {
             if (nextNodes.length > 1) {
                 //multiple pivots here do nothing
@@ -139,6 +143,7 @@ function Play(props:{isDemo:boolean}) {
             var nextNodesTemp = findNextNodes(nextNode, edges, nodes);
             setnextNodes([...nextNodesTemp]);
             setcurrentNode(nextNode);
+
         }
         else if (event.key === "ArrowLeft") {
             if (nextNodes.length < 2) { return }
@@ -178,7 +183,7 @@ function Play(props:{isDemo:boolean}) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ transition: 0.7 }}
-            style={{paddingLeft:props.isDemo==true?"96px":"0px"}}
+            style={{ paddingLeft: props.isDemo == true ? "96px" : "0px" }}
             className="h-full w-full flex justify-start items-center bg-gradient-to-b from-white to-white/80 text-black/80 overflow-y-hidden">
             <div className="h-full absolute z-10 flex flex-col justify-start items-start py-10 ml-24 text-sm w-64">
                 <div className="flex flex-row justify-between items-center w-full"> <b>Next</b> Arrow Down </div>

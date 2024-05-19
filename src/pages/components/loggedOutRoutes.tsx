@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Demo from "../Demo";
 import LandingPage from "../landingPage";
 import Play from "../play";
 
